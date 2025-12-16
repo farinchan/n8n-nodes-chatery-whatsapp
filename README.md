@@ -1,247 +1,204 @@
-![Banner image](https://user-images.githubusercontent.com/10284570/173569848-c624317f-42b1-45a6-ab09-f0ea3c247648.png)
+# n8n-nodes-chatery-whatsapp
 
-# n8n-nodes-starter
+![n8n.io - Workflow Automation](https://raw.githubusercontent.com/n8n-io/n8n/master/assets/n8n-logo.png)
 
-This starter repository helps you build custom integrations for [n8n](https://n8n.io). It includes example nodes, credentials, the node linter, and all the tooling you need to get started.
+This is an n8n community node for integrating with **Chatery WhatsApp API**. It allows you to automate WhatsApp messaging, manage sessions, retrieve chat history, and handle groups directly from your n8n workflows.
 
-## Quick Start
+[n8n](https://n8n.io/) is a [fair-code licensed](https://docs.n8n.io/reference/license/) workflow automation platform.
 
-> [!TIP]
-> **New to building n8n nodes?** The fastest way to get started is with `npm create @n8n/node`. This command scaffolds a complete node package for you using the [@n8n/node-cli](https://www.npmjs.com/package/@n8n/node-cli).
+## Table of Contents
 
-**To create a new node package from scratch:**
+- [Installation](#installation)
+- [Credentials](#credentials)
+- [Nodes](#nodes)
+  - [Chatery WhatsApp Trigger](#chatery-whatsapp-trigger)
+  - [Chatery WhatsApp](#chatery-whatsapp)
+- [Resources & Operations](#resources--operations)
+- [Compatibility](#compatibility)
+- [Usage Examples](#usage-examples)
+- [License](#license)
 
-```bash
-npm create @n8n/node
-```
+## Installation
 
-**Already using this starter? Start developing with:**
+Follow the [installation guide](https://docs.n8n.io/integrations/community-nodes/installation/) in the n8n community nodes documentation.
 
-```bash
-npm run dev
-```
-
-This starts n8n with your nodes loaded and hot reload enabled.
-
-## What's Included
-
-This starter repository includes two example nodes to learn from:
-
-- **[Example Node](nodes/Example/)** - A simple starter node that shows the basic structure with a custom `execute` method
-- **[GitHub Issues Node](nodes/GithubIssues/)** - A complete, production-ready example built using the **declarative style**:
-  - **Low-code approach** - Define operations declaratively without writing request logic
-  - Multiple resources (Issues, Comments)
-  - Multiple operations (Get, Get All, Create)
-  - Two authentication methods (OAuth2 and Personal Access Token)
-  - List search functionality for dynamic dropdowns
-  - Proper error handling and typing
-  - Ideal for HTTP API-based integrations
-
-> [!TIP]
-> The declarative/low-code style (used in GitHub Issues) is the recommended approach for building nodes that interact with HTTP APIs. It significantly reduces boilerplate code and handles requests automatically.
-
-Browse these examples to understand both approaches, then modify them or create your own.
-
-## Finding Inspiration
-
-Looking for more examples? Check out these resources:
-
-- **[npm Community Nodes](https://www.npmjs.com/search?q=keywords:n8n-community-node-package)** - Browse thousands of community-built nodes on npm using the `n8n-community-node-package` tag
-- **[n8n Built-in Nodes](https://github.com/n8n-io/n8n/tree/master/packages/nodes-base/nodes)** - Study the source code of n8n's official nodes for production-ready patterns and best practices
-- **[n8n Credentials](https://github.com/n8n-io/n8n/tree/master/packages/nodes-base/credentials)** - See how authentication is implemented for various services
-
-These are excellent resources to understand how to structure your nodes, handle different API patterns, and implement advanced features.
-
-## Prerequisites
-
-Before you begin, install the following on your development machine:
-
-### Required
-
-- **[Node.js](https://nodejs.org/)** (v22 or higher) and npm
-  - Linux/Mac/WSL: Install via [nvm](https://github.com/nvm-sh/nvm)
-  - Windows: Follow [Microsoft's NodeJS guide](https://learn.microsoft.com/en-us/windows/dev-environment/javascript/nodejs-on-windows)
-- **[git](https://git-scm.com/downloads)**
-
-### Recommended
-
-- Follow n8n's [development environment setup guide](https://docs.n8n.io/integrations/creating-nodes/build/node-development-environment/)
-
-> [!NOTE]
-> The `@n8n/node-cli` is included as a dev dependency and will be installed automatically when you run `npm install`. The CLI includes n8n for local development, so you don't need to install n8n globally.
-
-## Getting Started with this Starter
-
-Follow these steps to create your own n8n community node package:
-
-### 1. Create Your Repository
-
-[Generate a new repository](https://github.com/n8n-io/n8n-nodes-starter/generate) from this template, then clone it:
+### npm Installation
 
 ```bash
-git clone https://github.com/<your-organization>/<your-repo-name>.git
-cd <your-repo-name>
+npm install n8n-nodes-chatery-whatsapp
 ```
 
-### 2. Install Dependencies
+### Manual Installation
 
-```bash
-npm install
-```
+1. Go to **Settings > Community Nodes**
+2. Select **Install**
+3. Enter `n8n-nodes-chatery-whatsapp` in the **Enter npm package name** field
+4. Agree to the risks of using community nodes
+5. Click **Install**
 
-This installs all required dependencies including the `@n8n/node-cli`.
+## Credentials
 
-### 3. Explore the Examples
+To use this node, you need to configure the **Chatery API** credentials:
 
-Browse the example nodes in [nodes/](nodes/) and [credentials/](credentials/) to understand the structure:
+| Field | Description |
+|-------|-------------|
+| **URL** | Your Chatery WhatsApp API host URL (e.g., `https://api.chatery.io`) |
+| **API Key** | Your API key for authentication (optional, depending on your setup) |
 
-- Start with [nodes/Example/](nodes/Example/) for a basic node
-- Study [nodes/GithubIssues/](nodes/GithubIssues/) for a real-world implementation
+## Nodes
 
-### 4. Build Your Node
+This package includes two nodes:
 
-Edit the example nodes to fit your use case, or create new node files by copying the structure from [nodes/Example/](nodes/Example/).
+### Chatery WhatsApp Trigger
 
-> [!TIP]
-> If you want to scaffold a completely new node package, use `npm create @n8n/node` to start fresh with the CLI's interactive generator.
+A webhook trigger node that listens for WhatsApp events from the Chatery API.
 
-### 5. Configure Your Package
+**Supported Events:**
+| Event | Description |
+|-------|-------------|
+| `all` | Listen to all events |
+| `message` | New incoming message |
+| `message_ack` | Message acknowledgment (sent, delivered, read) |
+| `message_revoke` | Message deleted/revoked |
+| `presence` | Contact presence update (online, typing, etc.) |
+| `qr` | QR code generated for authentication |
+| `ready` | Session is ready and connected |
+| `disconnected` | Session disconnected |
+| `group_update` | Group information updated |
+| `group_participants` | Group participants changed |
 
-Update `package.json` with your details:
+**Options:**
+- **Session Filter**: Filter events by specific session ID
+- **Chat ID Filter**: Filter events by specific chat ID
+- **Ignore Status**: Ignore status/story updates
+- **Only From Me**: Only receive messages sent by you
+- **Only From Others**: Only receive messages from others
 
-- `name` - Your package name (must start with `n8n-nodes-`)
-- `author` - Your name and email
-- `repository` - Your repository URL
-- `description` - What your node does
+### Chatery WhatsApp
 
-Make sure your node is registered in the `n8n.nodes` array.
+The main node for performing WhatsApp operations via HTTP requests.
 
-### 6. Develop and Test Locally
+## Resources & Operations
 
-Start n8n with your node loaded:
+### Chat Resource
 
-```bash
-npm run dev
-```
+| Operation | Description |
+|-----------|-------------|
+| **Send Text** | Send a text message to a chat |
+| **Send Image** | Send an image with optional caption |
+| **Send Document** | Send a document/file |
+| **Send Location** | Send a location with coordinates |
+| **Send Contact** | Send a contact card |
+| **Send Button** | Send a message with buttons |
+| **Send Presence Update** | Update your presence status |
+| **Check Number** | Check if a number is registered on WhatsApp |
+| **Profile Picture** | Get a contact's profile picture URL |
+| **Contact Info** | Get detailed information about a contact |
 
-This command runs `n8n-node dev` which:
+### Session Resource
 
-- Builds your node with watch mode
-- Starts n8n with your node available
-- Automatically rebuilds when you make changes
-- Opens n8n in your browser (usually http://localhost:5678)
+| Operation | Description |
+|-----------|-------------|
+| **List** | List all available sessions |
+| **Connect** | Connect/start a new session |
+| **Status** | Get the status of a session |
+| **Update Config** | Update session configuration |
+| **Add Webhook** | Add a webhook URL to receive events |
+| **Remove Webhook** | Remove a webhook from the session |
+| **QR Code** | Get QR code as text for authentication |
+| **QR Image** | Get QR code as image for authentication |
+| **Delete** | Delete/terminate a session |
 
-You can now test your node in n8n workflows!
+### History Resource
 
-> [!NOTE]
-> Learn more about CLI commands in the [@n8n/node-cli documentation](https://www.npmjs.com/package/@n8n/node-cli).
+| Operation | Description |
+|-----------|-------------|
+| **Overview** | Get an overview of all chats |
+| **Contacts** | Get list of all contacts |
+| **Messages** | Get messages from a specific chat |
+| **Info** | Get detailed information about a chat |
+| **Mark Read** | Mark messages in a chat as read |
 
-### 7. Lint Your Code
+### Group Resource
 
-Check for errors:
+| Operation | Description |
+|-----------|-------------|
+| **List** | List all groups you're a member of |
+| **Create** | Create a new group |
+| **Metadata** | Get group metadata/information |
+| **Add Participants** | Add participants to a group |
+| **Remove Participants** | Remove participants from a group |
+| **Promote Participants** | Promote participants to admin |
+| **Demote Participants** | Demote admins to regular participants |
+| **Update Subject** | Update group name/subject |
+| **Update Description** | Update group description |
+| **Leave** | Leave a group |
+| **Invite Code** | Get group invite code |
+| **Revoke Invite Code** | Revoke and generate new invite code |
+| **Set Who Can Send Message** | Set who can send messages (all/admins only) |
+| **Set Who Can Edit Group** | Set who can edit group info |
+| **Accept Invite** | Join a group using invite code |
 
-```bash
-npm run lint
-```
+## Compatibility
 
-Auto-fix issues when possible:
+- **n8n version**: 0.5.0 or later
+- **Node.js**: 18.10 or later
 
-```bash
-npm run lint:fix
-```
+## Usage Examples
 
-### 8. Build for Production
+### Example 1: Auto-reply to Messages
 
-When ready to publish:
+1. Add **Chatery WhatsApp Trigger** node with `message` event
+2. Add **Chatery WhatsApp** node with **Send Text** operation
+3. Connect the trigger to the send node
+4. Map the incoming chat ID to the recipient
+
+### Example 2: Send Notification to Group
+
+1. Use any trigger (e.g., Webhook, Schedule)
+2. Add **Chatery WhatsApp** node
+3. Select **Chat** resource and **Send Text** operation
+4. Enter your group ID and message
+
+### Example 3: Session Management
+
+1. Use **Chatery WhatsApp** node
+2. Select **Session** resource
+3. Use **Connect** to start a new session
+4. Use **QR Image** to get the QR code for scanning
+5. Use **Status** to check connection status
+
+## Development
+
+### Build
 
 ```bash
 npm run build
 ```
 
-This compiles your TypeScript code to the `dist/` folder.
-
-### 9. Prepare for Publishing
-
-Before publishing:
-
-1. **Update documentation**: Replace this README with your node's documentation. Use [README_TEMPLATE.md](README_TEMPLATE.md) as a starting point.
-2. **Update the LICENSE**: Add your details to the [LICENSE](LICENSE.md) file.
-3. **Test thoroughly**: Ensure your node works in different scenarios.
-
-### 10. Publish to npm
-
-Publish your package to make it available to the n8n community:
+### Lint
 
 ```bash
-npm publish
+npm run lint
 ```
 
-Learn more about [publishing to npm](https://docs.npmjs.com/packages-and-modules/contributing-packages-to-the-registry).
+### Run Tests
 
-### 11. Submit for Verification (Optional)
-
-Get your node verified for n8n Cloud:
-
-1. Ensure your node meets the [requirements](https://docs.n8n.io/integrations/creating-nodes/deploy/submit-community-nodes/):
-   - Uses MIT license ✅ (included in this starter)
-   - No external package dependencies
-   - Follows n8n's design guidelines
-   - Passes quality and security review
-
-2. Submit through the [n8n Creator Portal](https://creators.n8n.io/nodes)
-
-**Benefits of verification:**
-
-- Available directly in n8n Cloud
-- Discoverable in the n8n nodes panel
-- Verified badge for quality assurance
-- Increased visibility in the n8n community
-
-## Available Scripts
-
-This starter includes several npm scripts to streamline development:
-
-| Script                | Description                                                      |
-| --------------------- | ---------------------------------------------------------------- |
-| `npm run dev`         | Start n8n with your node and watch for changes (runs `n8n-node dev`) |
-| `npm run build`       | Compile TypeScript to JavaScript for production (runs `n8n-node build`) |
-| `npm run build:watch` | Build in watch mode (auto-rebuild on changes)                    |
-| `npm run lint`        | Check your code for errors and style issues (runs `n8n-node lint`) |
-| `npm run lint:fix`    | Automatically fix linting issues when possible (runs `n8n-node lint --fix`) |
-| `npm run release`     | Create a new release (runs `n8n-node release`)                   |
-
-> [!TIP]
-> These scripts use the [@n8n/node-cli](https://www.npmjs.com/package/@n8n/node-cli) under the hood. You can also run CLI commands directly, e.g., `npx n8n-node dev`.
-
-## Troubleshooting
-
-### My node doesn't appear in n8n
-
-1. Make sure you ran `npm install` to install dependencies
-2. Check that your node is listed in `package.json` under `n8n.nodes`
-3. Restart the dev server with `npm run dev`
-4. Check the console for any error messages
-
-### Linting errors
-
-Run `npm run lint:fix` to automatically fix most common issues. For remaining errors, check the [n8n node development guidelines](https://docs.n8n.io/integrations/creating-nodes/).
-
-### TypeScript errors
-
-Make sure you're using Node.js v22 or higher and have run `npm install` to get all type definitions.
+```bash
+npm run test
+```
 
 ## Resources
 
-- **[n8n Node Documentation](https://docs.n8n.io/integrations/creating-nodes/)** - Complete guide to building nodes
-- **[n8n Community Forum](https://community.n8n.io/)** - Get help and share your nodes
-- **[@n8n/node-cli Documentation](https://www.npmjs.com/package/@n8n/node-cli)** - CLI tool reference
-- **[n8n Creator Portal](https://creators.n8n.io/nodes)** - Submit your node for verification
-- **[Submit Community Nodes Guide](https://docs.n8n.io/integrations/creating-nodes/deploy/submit-community-nodes/)** - Verification requirements and process
+- [n8n community nodes documentation](https://docs.n8n.io/integrations/community-nodes/)
+- [Chatery WhatsApp API Documentation](https://github.com/AhmadShahid/chatery)
 
-## Contributing
+## Author
 
-Have suggestions for improving this starter? [Open an issue](https://github.com/n8n-io/n8n-nodes-starter/issues) or submit a pull request!
+**Dajri Rinaldi Chan**
+- Email: fajri@gariskode.com
+- GitHub: [@farinchan](https://github.com/farinchan)
 
 ## License
 
-[MIT](https://github.com/n8n-io/n8n-nodes-starter/blob/master/LICENSE.md)
+[MIT](LICENSE.md)

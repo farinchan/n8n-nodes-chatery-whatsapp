@@ -18,6 +18,7 @@ export class ChateryWhatsAppTrigger implements INodeType {
 		defaults: {
 			name: 'Chatery WhatsApp Trigger',
 		},
+		usableAsTool: true,
 		inputs: [],
 		outputs: ['main'],
 		credentials: [
@@ -104,18 +105,18 @@ export class ChateryWhatsAppTrigger implements INodeType {
 				default: {},
 				options: [
 					{
-						displayName: 'Filter by Session',
-						name: 'sessionFilter',
-						type: 'string',
-						default: '',
-						description: 'Only trigger for events from this specific session ID',
-					},
-					{
 						displayName: 'Filter by Chat ID',
 						name: 'chatIdFilter',
 						type: 'string',
 						default: '',
 						description: 'Only trigger for events from this specific chat ID (e.g., 6281234567890@c.us)',
+					},
+					{
+						displayName: 'Filter by Session',
+						name: 'sessionFilter',
+						type: 'string',
+						default: '',
+						description: 'Only trigger for events from this specific session ID',
 					},
 					{
 						displayName: 'Ignore Status Messages',

@@ -9,6 +9,7 @@ export class ChateryApi implements ICredentialType {
     name = 'chateryApi';
     displayName = 'Chatery API';
     documentationUrl = 'https://github.com/farinchan/chatery_backend';
+    icon = 'file:chatery.svg' as const;
     properties: INodeProperties[] = [
         {
             displayName: 'Host URL',

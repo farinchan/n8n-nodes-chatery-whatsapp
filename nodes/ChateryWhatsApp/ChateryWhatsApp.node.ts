@@ -5,7 +5,7 @@ import {
 	INodeType,
 	INodeTypeDescription,
 	IHttpRequestMethods,
-	IRequestOptions,
+	IHttpRequestOptions,
 	NodeApiError,
 	JsonObject,
 } from 'n8n-workflow';
@@ -22,6 +22,7 @@ export class ChateryWhatsApp implements INodeType {
 		defaults: {
 			name: 'Chatery WhatsApp',
 		},
+		usableAsTool: true,
 		inputs: ['main'],
 		outputs: ['main'],
 		credentials: [
@@ -79,13 +80,13 @@ export class ChateryWhatsApp implements INodeType {
 						name: 'Connect',
 						value: 'connect',
 						description: 'Connect/create a WhatsApp session',
-						action: 'Connect a WhatsApp session',
+						action: 'Connect a whats app session',
 					},
 					{
 						name: 'Delete',
 						value: 'delete',
 						description: 'Delete a WhatsApp session',
-						action: 'Delete a WhatsApp session',
+						action: 'Delete a whats app session',
 					},
 					{
 						name: 'Get QR Code',
@@ -109,7 +110,7 @@ export class ChateryWhatsApp implements INodeType {
 						name: 'List',
 						value: 'list',
 						description: 'List all WhatsApp sessions',
-						action: 'List all WhatsApp sessions',
+						action: 'List all whats app sessions',
 					},
 					{
 						name: 'Remove Webhook',
@@ -271,7 +272,7 @@ export class ChateryWhatsApp implements INodeType {
 						name: 'Update Subject',
 						value: 'updateSubject',
 						description: 'Update group subject/name',
-						action: 'Update group subject/name',
+						action: 'Update group subject name',
 					},
 				],
 				default: 'list',
@@ -292,7 +293,7 @@ export class ChateryWhatsApp implements INodeType {
 						name: 'Check Number',
 						value: 'checkNumber',
 						description: 'Check if a phone number is registered on WhatsApp',
-						action: 'Check if a phone number is registered on WhatsApp',
+						action: 'Check if a phone number is registered on whats app',
 					},
 					{
 						name: 'Get Contact Info',
@@ -876,8 +877,11 @@ export class ChateryWhatsApp implements INodeType {
 				displayName: 'Limit',
 				name: 'limit',
 				type: 'number',
-				default: 20,
-				description: 'Maximum number of results to return',
+				typeOptions: {
+					minValue: 1,
+				},
+				default: 50,
+				description: 'Max number of results to return',
 				displayOptions: {
 					show: {
 						resource: ['history'],
@@ -981,7 +985,7 @@ export class ChateryWhatsApp implements INodeType {
 				required: true,
 				default: '',
 				placeholder: '123456789012345678@g.us',
-				description: 'The group ID',
+
 				displayOptions: {
 					show: {
 						resource: ['group'],
@@ -1296,7 +1300,7 @@ export class ChateryWhatsApp implements INodeType {
 						if (metadataStr && metadataStr !== '{}') {
 							try {
 								body.metadata = JSON.parse(metadataStr);
-							} catch (e) {
+							} catch {
 								body.metadata = {};
 							}
 						}
@@ -1321,7 +1325,7 @@ export class ChateryWhatsApp implements INodeType {
 						if (metadataStr && metadataStr !== '{}') {
 							try {
 								body.metadata = JSON.parse(metadataStr);
-							} catch (e) {
+							} catch {
 								body.metadata = {};
 							}
 						}
@@ -1587,9 +1591,9 @@ async function chateryApiRequest(
 	body: IDataObject,
 	credentials: IDataObject,
 ): Promise<IDataObject> {
-	const options: IRequestOptions = {
+	const options: IHttpRequestOptions = {
 		method,
-		uri: `${credentials.url}${endpoint}`,
+		url: `${credentials.url}${endpoint}`,
 		body,
 		json: true,
 		headers: {
@@ -1602,7 +1606,7 @@ async function chateryApiRequest(
 	}
 
 	try {
-		const response = await this.helpers.request(options);
+		const response = await this.helpers.httpRequest(options);
 		return response as IDataObject;
 	} catch (error) {
 		throw new NodeApiError(this.getNode(), error as JsonObject);
@@ -1615,9 +1619,9 @@ async function chateryApiRequestGet(
 	endpoint: string,
 	credentials: IDataObject,
 ): Promise<IDataObject> {
-	const options: IRequestOptions = {
+	const options: IHttpRequestOptions = {
 		method,
-		uri: `${credentials.url}${endpoint}`,
+		url: `${credentials.url}${endpoint}`,
 		json: true,
 		headers: {
 			'Content-Type': 'application/json',
@@ -1629,7 +1633,7 @@ async function chateryApiRequestGet(
 	}
 
 	try {
-		const response = await this.helpers.request(options);
+		const response = await this.helpers.httpRequest(options);
 		return response as IDataObject;
 	} catch (error) {
 		throw new NodeApiError(this.getNode(), error as JsonObject);
@@ -1643,9 +1647,9 @@ async function chateryApiRequestDelete(
 	body: IDataObject,
 	credentials: IDataObject,
 ): Promise<IDataObject> {
-	const options: IRequestOptions = {
+	const options: IHttpRequestOptions = {
 		method,
-		uri: `${credentials.url}${endpoint}`,
+		url: `${credentials.url}${endpoint}`,
 		body,
 		json: true,
 		headers: {
@@ -1658,7 +1662,7 @@ async function chateryApiRequestDelete(
 	}
 
 	try {
-		const response = await this.helpers.request(options);
+		const response = await this.helpers.httpRequest(options);
 		return response as IDataObject;
 	} catch (error) {
 		throw new NodeApiError(this.getNode(), error as JsonObject);
@@ -1672,9 +1676,9 @@ async function chateryApiRequestPatch(
 	body: IDataObject,
 	credentials: IDataObject,
 ): Promise<IDataObject> {
-	const options: IRequestOptions = {
+	const options: IHttpRequestOptions = {
 		method,
-		uri: `${credentials.url}${endpoint}`,
+		url: `${credentials.url}${endpoint}`,
 		body,
 		json: true,
 		headers: {
@@ -1687,7 +1691,7 @@ async function chateryApiRequestPatch(
 	}
 
 	try {
-		const response = await this.helpers.request(options);
+		const response = await this.helpers.httpRequest(options);
 		return response as IDataObject;
 	} catch (error) {
 		throw new NodeApiError(this.getNode(), error as JsonObject);

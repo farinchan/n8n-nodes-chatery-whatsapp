@@ -1,0 +1,22 @@
+{
+	"node": "n8n-nodes-base.chateryWhatsAppTrigger",
+	"nodeVersion": "1.0",
+	"codexVersion": "1.0",
+	"categories": ["Communication"],
+	"resources": {
+		"credentialDocumentation": [
+			{
+				"url": "https://github.com/farinchan/chatery_backend"
+			}
+		],
+		"primaryDocumentation": [
+			{
+				"url": "https://github.com/farinchan/n8n-nodes-chatery-whatsapp"
+			}
+		]
+	},
+	"alias": ["WhatsApp", "Chatery", "Webhook", "Message", "Chat"],
+	"subcategories": {
+		"Communication": ["WhatsApp"]
+	}
+}

@@ -40,6 +40,10 @@ export class ChateryWhatsApp implements INodeType {
 				noDataExpression: true,
 				options: [
 					{
+						name: 'Bulk',
+						value: 'bulk',
+					},
+					{
 						name: 'Chat',
 						value: 'chat',
 					},
@@ -57,6 +61,51 @@ export class ChateryWhatsApp implements INodeType {
 					},
 				],
 				default: 'chat',
+			},
+			// Operations for Bulk
+			{
+				displayName: 'Operation',
+				name: 'operation',
+				type: 'options',
+				noDataExpression: true,
+				displayOptions: {
+					show: {
+						resource: ['bulk'],
+					},
+				},
+				options: [
+					{
+						name: 'Get All Jobs',
+						value: 'getAllJobs',
+						description: 'Get all bulk messaging jobs',
+						action: 'Get all bulk messaging jobs',
+					},
+					{
+						name: 'Get Job Status',
+						value: 'getJobStatus',
+						description: 'Get status of a bulk messaging job',
+						action: 'Get status of a bulk messaging job',
+					},
+					{
+						name: 'Send Bulk Document',
+						value: 'sendBulkDocument',
+						description: 'Send a document to multiple recipients',
+						action: 'Send a document to multiple recipients',
+					},
+					{
+						name: 'Send Bulk Image',
+						value: 'sendBulkImage',
+						description: 'Send an image to multiple recipients',
+						action: 'Send an image to multiple recipients',
+					},
+					{
+						name: 'Send Bulk Text',
+						value: 'sendBulkText',
+						description: 'Send a text message to multiple recipients',
+						action: 'Send a text message to multiple recipients',
+					},
+				],
+				default: 'sendBulkText',
 			},
 			// Operations for Session
 			{
@@ -366,6 +415,19 @@ export class ChateryWhatsApp implements INodeType {
 				displayOptions: {
 					show: {
 						resource: ['chat'],
+					},
+				},
+			},
+			{
+				displayName: 'Session ID',
+				name: 'sessionId',
+				type: 'string',
+				required: true,
+				default: '',
+				description: 'The WhatsApp session ID',
+				displayOptions: {
+					show: {
+						resource: ['bulk'],
 					},
 				},
 			},
@@ -758,6 +820,168 @@ export class ChateryWhatsApp implements INodeType {
 					},
 				},
 			},
+			{
+				displayName: 'Reply To Message ID',
+				name: 'replyTo',
+				type: 'string',
+				default: '',
+				description: 'Message ID to reply/quote to (optional)',
+				displayOptions: {
+					show: {
+						resource: ['chat'],
+						operation: ['sendText', 'sendImage', 'sendDocument', 'sendLocation', 'sendContact', 'sendButton'],
+					},
+				},
+			},
+
+			// ==========================================
+			// Bulk Messaging Fields
+			// ==========================================
+			{
+				displayName: 'Recipients',
+				name: 'recipients',
+				type: 'string',
+				required: true,
+				default: '',
+				placeholder: '628123456789,628987654321,628111222333',
+				description: 'Comma-separated list of phone numbers (max 100)',
+				displayOptions: {
+					show: {
+						resource: ['bulk'],
+						operation: ['sendBulkText', 'sendBulkImage', 'sendBulkDocument'],
+					},
+				},
+			},
+			{
+				displayName: 'Message',
+				name: 'bulkMessage',
+				type: 'string',
+				typeOptions: {
+					rows: 4,
+				},
+				required: true,
+				default: '',
+				description: 'The text message to send to all recipients',
+				displayOptions: {
+					show: {
+						resource: ['bulk'],
+						operation: ['sendBulkText'],
+					},
+				},
+			},
+			{
+				displayName: 'Image URL',
+				name: 'bulkImageUrl',
+				type: 'string',
+				required: true,
+				default: '',
+				placeholder: 'https://example.com/image.jpg',
+				description: 'The URL of the image to send',
+				displayOptions: {
+					show: {
+						resource: ['bulk'],
+						operation: ['sendBulkImage'],
+					},
+				},
+			},
+			{
+				displayName: 'Caption',
+				name: 'bulkCaption',
+				type: 'string',
+				default: '',
+				description: 'Optional caption for the image',
+				displayOptions: {
+					show: {
+						resource: ['bulk'],
+						operation: ['sendBulkImage'],
+					},
+				},
+			},
+			{
+				displayName: 'Document URL',
+				name: 'bulkDocumentUrl',
+				type: 'string',
+				required: true,
+				default: '',
+				placeholder: 'https://example.com/document.pdf',
+				description: 'The URL of the document to send',
+				displayOptions: {
+					show: {
+						resource: ['bulk'],
+						operation: ['sendBulkDocument'],
+					},
+				},
+			},
+			{
+				displayName: 'Filename',
+				name: 'bulkFilename',
+				type: 'string',
+				required: true,
+				default: '',
+				placeholder: 'document.pdf',
+				description: 'The filename to display for the document',
+				displayOptions: {
+					show: {
+						resource: ['bulk'],
+						operation: ['sendBulkDocument'],
+					},
+				},
+			},
+			{
+				displayName: 'MIME Type',
+				name: 'bulkMimetype',
+				type: 'string',
+				default: '',
+				placeholder: 'application/pdf',
+				description: 'The MIME type of the document (optional)',
+				displayOptions: {
+					show: {
+						resource: ['bulk'],
+						operation: ['sendBulkDocument'],
+					},
+				},
+			},
+			{
+				displayName: 'Delay Between Messages',
+				name: 'delayBetweenMessages',
+				type: 'number',
+				default: 1000,
+				description: 'Delay between messages in milliseconds (default: 1000)',
+				displayOptions: {
+					show: {
+						resource: ['bulk'],
+						operation: ['sendBulkText', 'sendBulkImage', 'sendBulkDocument'],
+					},
+				},
+			},
+			{
+				displayName: 'Typing Time',
+				name: 'bulkTypingTime',
+				type: 'number',
+				default: 0,
+				description: 'Typing indicator duration in milliseconds (default: 0)',
+				displayOptions: {
+					show: {
+						resource: ['bulk'],
+						operation: ['sendBulkText', 'sendBulkImage', 'sendBulkDocument'],
+					},
+				},
+			},
+			{
+				displayName: 'Job ID',
+				name: 'jobId',
+				type: 'string',
+				required: true,
+				default: '',
+				placeholder: 'bulk_1704326400000_abc123def',
+				description: 'The job ID returned from a bulk send operation',
+				displayOptions: {
+					show: {
+						resource: ['bulk'],
+						operation: ['getJobStatus'],
+					},
+				},
+			},
 
 			// ==========================================
 			// Session: Connect Fields
@@ -809,15 +1033,24 @@ export class ChateryWhatsApp implements INodeType {
 								name: 'events',
 								type: 'multiOptions',
 								options: [
-									{ name: 'Disconnected', value: 'disconnected' },
-									{ name: 'Group Participants', value: 'group_participants' },
-									{ name: 'Group Update', value: 'group_update' },
+									{ name: 'All', value: 'all' },
+									{ name: 'Call', value: 'call' },
+									{ name: 'Chat Delete', value: 'chat.delete' },
+									{ name: 'Chat Update', value: 'chat.update' },
+									{ name: 'Chat Upsert', value: 'chat.upsert' },
+									{ name: 'Connection Update', value: 'connection.update' },
+									{ name: 'Contact Update', value: 'contact.update' },
+									{ name: 'Group Participants', value: 'group.participants' },
+									{ name: 'Group Update', value: 'group.update' },
+									{ name: 'Labels', value: 'labels' },
+									{ name: 'Logged Out', value: 'logged.out' },
 									{ name: 'Message', value: 'message' },
-									{ name: 'Message Ack', value: 'message_ack' },
-									{ name: 'Message Revoke', value: 'message_revoke' },
-									{ name: 'Presence', value: 'presence' },
+									{ name: 'Message Reaction', value: 'message.reaction' },
+									{ name: 'Message Revoke', value: 'message.revoke' },
+									{ name: 'Message Sent', value: 'message.sent' },
+									{ name: 'Message Update', value: 'message.update' },
+									{ name: 'Presence Update', value: 'presence.update' },
 									{ name: 'QR', value: 'qr' },
-									{ name: 'Ready', value: 'ready' },
 								],
 								default: [],
 								description: 'Events to subscribe to (leave empty for all events)',
@@ -850,15 +1083,24 @@ export class ChateryWhatsApp implements INodeType {
 				name: 'webhookEvents',
 				type: 'multiOptions',
 				options: [
-					{ name: 'Disconnected', value: 'disconnected' },
-					{ name: 'Group Participants', value: 'group_participants' },
-					{ name: 'Group Update', value: 'group_update' },
+					{ name: 'All', value: 'all' },
+					{ name: 'Call', value: 'call' },
+					{ name: 'Chat Delete', value: 'chat.delete' },
+					{ name: 'Chat Update', value: 'chat.update' },
+					{ name: 'Chat Upsert', value: 'chat.upsert' },
+					{ name: 'Connection Update', value: 'connection.update' },
+					{ name: 'Contact Update', value: 'contact.update' },
+					{ name: 'Group Participants', value: 'group.participants' },
+					{ name: 'Group Update', value: 'group.update' },
+					{ name: 'Labels', value: 'labels' },
+					{ name: 'Logged Out', value: 'logged.out' },
 					{ name: 'Message', value: 'message' },
-					{ name: 'Message Ack', value: 'message_ack' },
-					{ name: 'Message Revoke', value: 'message_revoke' },
-					{ name: 'Presence', value: 'presence' },
+					{ name: 'Message Reaction', value: 'message.reaction' },
+					{ name: 'Message Revoke', value: 'message.revoke' },
+					{ name: 'Message Sent', value: 'message.sent' },
+					{ name: 'Message Update', value: 'message.update' },
+					{ name: 'Presence Update', value: 'presence.update' },
 					{ name: 'QR', value: 'qr' },
-					{ name: 'Ready', value: 'ready' },
 				],
 				default: [],
 				description: 'Events to subscribe to (leave empty for all events)',
@@ -1124,6 +1366,7 @@ export class ChateryWhatsApp implements INodeType {
 						const chatId = this.getNodeParameter('chatId', i) as string;
 						const message = this.getNodeParameter('message', i) as string;
 						const typingTime = this.getNodeParameter('typingTime', i) as number;
+						const replyTo = this.getNodeParameter('replyTo', i) as string;
 
 						const body: IDataObject = {
 							sessionId,
@@ -1133,6 +1376,9 @@ export class ChateryWhatsApp implements INodeType {
 						if (typingTime > 0) {
 							body.typingTime = typingTime;
 						}
+						if (replyTo) {
+							body.replyTo = replyTo;
+						}
 
 						responseData = await chateryApiRequest.call(this, 'POST', '/api/whatsapp/chats/send-text', body, credentials);
 					} else if (operation === 'sendImage') {
@@ -1140,6 +1386,7 @@ export class ChateryWhatsApp implements INodeType {
 						const imageUrl = this.getNodeParameter('imageUrl', i) as string;
 						const caption = this.getNodeParameter('caption', i) as string;
 						const typingTime = this.getNodeParameter('typingTime', i) as number;
+						const replyTo = this.getNodeParameter('replyTo', i) as string;
 
 						const body: IDataObject = {
 							sessionId,
@@ -1152,6 +1399,9 @@ export class ChateryWhatsApp implements INodeType {
 						if (typingTime > 0) {
 							body.typingTime = typingTime;
 						}
+						if (replyTo) {
+							body.replyTo = replyTo;
+						}
 
 						responseData = await chateryApiRequest.call(this, 'POST', '/api/whatsapp/chats/send-image', body, credentials);
 					} else if (operation === 'sendDocument') {
@@ -1160,6 +1410,7 @@ export class ChateryWhatsApp implements INodeType {
 						const filename = this.getNodeParameter('filename', i) as string;
 						const mimetype = this.getNodeParameter('mimetype', i) as string;
 						const typingTime = this.getNodeParameter('typingTime', i) as number;
+						const replyTo = this.getNodeParameter('replyTo', i) as string;
 
 						const body: IDataObject = {
 							sessionId,
@@ -1173,6 +1424,9 @@ export class ChateryWhatsApp implements INodeType {
 						if (typingTime > 0) {
 							body.typingTime = typingTime;
 						}
+						if (replyTo) {
+							body.replyTo = replyTo;
+						}
 
 						responseData = await chateryApiRequest.call(this, 'POST', '/api/whatsapp/chats/send-document', body, credentials);
 					} else if (operation === 'sendLocation') {
@@ -1181,6 +1435,7 @@ export class ChateryWhatsApp implements INodeType {
 						const longitude = this.getNodeParameter('longitude', i) as number;
 						const locationName = this.getNodeParameter('locationName', i) as string;
 						const typingTime = this.getNodeParameter('typingTime', i) as number;
+						const replyTo = this.getNodeParameter('replyTo', i) as string;
 
 						const body: IDataObject = {
 							sessionId,
@@ -1194,6 +1449,9 @@ export class ChateryWhatsApp implements INodeType {
 						if (typingTime > 0) {
 							body.typingTime = typingTime;
 						}
+						if (replyTo) {
+							body.replyTo = replyTo;
+						}
 
 						responseData = await chateryApiRequest.call(this, 'POST', '/api/whatsapp/chats/send-location', body, credentials);
 					} else if (operation === 'sendContact') {
@@ -1201,6 +1459,7 @@ export class ChateryWhatsApp implements INodeType {
 						const contactName = this.getNodeParameter('contactName', i) as string;
 						const contactPhone = this.getNodeParameter('contactPhone', i) as string;
 						const typingTime = this.getNodeParameter('typingTime', i) as number;
+						const replyTo = this.getNodeParameter('replyTo', i) as string;
 
 						const body: IDataObject = {
 							sessionId,
@@ -1211,6 +1470,9 @@ export class ChateryWhatsApp implements INodeType {
 						if (typingTime > 0) {
 							body.typingTime = typingTime;
 						}
+						if (replyTo) {
+							body.replyTo = replyTo;
+						}
 
 						responseData = await chateryApiRequest.call(this, 'POST', '/api/whatsapp/chats/send-contact', body, credentials);
 					} else if (operation === 'sendButton') {
@@ -1219,15 +1481,13 @@ export class ChateryWhatsApp implements INodeType {
 						const footer = this.getNodeParameter('footer', i) as string;
 						const buttonsData = this.getNodeParameter('buttons', i) as IDataObject;
 						const typingTime = this.getNodeParameter('typingTime', i) as number;
+						const replyTo = this.getNodeParameter('replyTo', i) as string;
 
-						const buttons: IDataObject[] = [];
+						const buttons: string[] = [];
 						if (buttonsData.buttonValues) {
 							const buttonValues = buttonsData.buttonValues as IDataObject[];
 							for (const button of buttonValues) {
-								buttons.push({
-									id: button.id,
-									text: button.text,
-								});
+								buttons.push(button.text as string);
 							}
 						}
 
@@ -1242,6 +1502,9 @@ export class ChateryWhatsApp implements INodeType {
 						}
 						if (typingTime > 0) {
 							body.typingTime = typingTime;
+						}
+						if (replyTo) {
+							body.replyTo = replyTo;
 						}
 
 						responseData = await chateryApiRequest.call(this, 'POST', '/api/whatsapp/chats/send-button', body, credentials);
@@ -1286,6 +1549,95 @@ export class ChateryWhatsApp implements INodeType {
 					} else {
 						throw new NodeApiError(this.getNode(), { message: `Unknown operation: ${operation}` });
 					}
+				} else if (resource === 'bulk') {
+					if (operation === 'sendBulkText') {
+						const recipientsStr = this.getNodeParameter('recipients', i) as string;
+						const recipients = recipientsStr.split(',').map((r) => r.trim()).filter((r) => r);
+						const message = this.getNodeParameter('bulkMessage', i) as string;
+						const delayBetweenMessages = this.getNodeParameter('delayBetweenMessages', i) as number;
+						const typingTime = this.getNodeParameter('bulkTypingTime', i) as number;
+
+						const body: IDataObject = {
+							sessionId,
+							recipients,
+							message,
+						};
+						if (delayBetweenMessages > 0) {
+							body.delayBetweenMessages = delayBetweenMessages;
+						}
+						if (typingTime > 0) {
+							body.typingTime = typingTime;
+						}
+
+						responseData = await chateryApiRequest.call(this, 'POST', '/api/whatsapp/chats/send-bulk', body, credentials);
+					} else if (operation === 'sendBulkImage') {
+						const recipientsStr = this.getNodeParameter('recipients', i) as string;
+						const recipients = recipientsStr.split(',').map((r) => r.trim()).filter((r) => r);
+						const imageUrl = this.getNodeParameter('bulkImageUrl', i) as string;
+						const caption = this.getNodeParameter('bulkCaption', i) as string;
+						const delayBetweenMessages = this.getNodeParameter('delayBetweenMessages', i) as number;
+						const typingTime = this.getNodeParameter('bulkTypingTime', i) as number;
+
+						const body: IDataObject = {
+							sessionId,
+							recipients,
+							imageUrl,
+						};
+						if (caption) {
+							body.caption = caption;
+						}
+						if (delayBetweenMessages > 0) {
+							body.delayBetweenMessages = delayBetweenMessages;
+						}
+						if (typingTime > 0) {
+							body.typingTime = typingTime;
+						}
+
+						responseData = await chateryApiRequest.call(this, 'POST', '/api/whatsapp/chats/send-bulk-image', body, credentials);
+					} else if (operation === 'sendBulkDocument') {
+						const recipientsStr = this.getNodeParameter('recipients', i) as string;
+						const recipients = recipientsStr.split(',').map((r) => r.trim()).filter((r) => r);
+						const documentUrl = this.getNodeParameter('bulkDocumentUrl', i) as string;
+						const filename = this.getNodeParameter('bulkFilename', i) as string;
+						const mimetype = this.getNodeParameter('bulkMimetype', i) as string;
+						const delayBetweenMessages = this.getNodeParameter('delayBetweenMessages', i) as number;
+						const typingTime = this.getNodeParameter('bulkTypingTime', i) as number;
+
+						const body: IDataObject = {
+							sessionId,
+							recipients,
+							documentUrl,
+							filename,
+						};
+						if (mimetype) {
+							body.mimetype = mimetype;
+						}
+						if (delayBetweenMessages > 0) {
+							body.delayBetweenMessages = delayBetweenMessages;
+						}
+						if (typingTime > 0) {
+							body.typingTime = typingTime;
+						}
+
+						responseData = await chateryApiRequest.call(this, 'POST', '/api/whatsapp/chats/send-bulk-document', body, credentials);
+					} else if (operation === 'getJobStatus') {
+						const jobId = this.getNodeParameter('jobId', i) as string;
+
+						responseData = await chateryApiRequestGet.call(this, 'GET', `/api/whatsapp/chats/bulk-status/${jobId}`, credentials);
+					} else if (operation === 'getAllJobs') {
+						const body: IDataObject = { sessionId };
+
+						responseData = await chateryApiRequest.call(this, 'POST', '/api/whatsapp/chats/bulk-jobs', body, credentials);
+					} else {
+						throw new NodeApiError(this.getNode(), { message: `Unknown operation: ${operation}` });
+					}
+
+					const executionData = this.helpers.constructExecutionMetaData(
+						this.helpers.returnJsonArray(responseData),
+						{ itemData: { item: i } },
+					);
+					returnData.push(...executionData);
+					continue;
 				} else if (resource === 'session') {
 					let responseData: IDataObject;
 

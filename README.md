@@ -1,8 +1,12 @@
 # n8n-nodes-chatery-whatsapp
 
+[![NPM Version](https://img.shields.io/npm/v/n8n-nodes-chatery-whatsapp)](https://www.npmjs.com/package/n8n-nodes-chatery-whatsapp)
+[![NPM Downloads](https://img.shields.io/npm/dm/n8n-nodes-chatery-whatsapp)](https://www.npmjs.com/package/n8n-nodes-chatery-whatsapp)
+
+![Chatery](https://sgp.cloud.appwrite.io/v1/storage/buckets/6941a5b70012d918c7aa/files/6941a69000028dec52d2/view?project=694019b0000abc694483&token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbklkIjoiNjk0MWE4NjRjZGNhZGUxOTZmNTMiLCJyZXNvdXJjZUlkIjoiNjk0MWE1YjcwMDEyZDkxOGM3YWE6Njk0MWE2OTAwMDAyOGRlYzUyZDIiLCJyZXNvdXJjZVR5cGUiOiJmaWxlcyIsInJlc291cmNlSW50ZXJuYWxJZCI6IjE0NTE6MSIsImlhdCI6MTc2NTkxMDYyOH0.6DyBMKwzA6x__pQZn3vICDLdBfo0mEUlyMVAc3qEnyo)
 ![n8n.io - Workflow Automation](https://raw.githubusercontent.com/n8n-io/n8n/master/assets/n8n-logo.png)
 
-This is an n8n community node for integrating with **[Chatery WhatsApp API](https://github.com/farinchan/chatery_whatsapp)**. It allows you to automate WhatsApp messaging, manage sessions, retrieve chat history, handle groups, and send bulk messages directly from your n8n workflows.
+This is an n8n community node for integrating with **Chatery WhatsApp API**. It allows you to automate WhatsApp messaging, manage sessions, retrieve chat history, and handle groups directly from your n8n workflows.
 
 [n8n](https://n8n.io/) is a [fair-code licensed](https://docs.n8n.io/reference/license/) workflow automation platform.
 
@@ -16,7 +20,6 @@ This is an n8n community node for integrating with **[Chatery WhatsApp API](http
 - [Resources & Operations](#resources--operations)
 - [Compatibility](#compatibility)
 - [Usage Examples](#usage-examples)
-- [Links](#links)
 - [License](#license)
 
 ## Installation
@@ -43,8 +46,8 @@ To use this node, you need to configure the **Chatery API** credentials:
 
 | Field | Description |
 |-------|-------------|
-| **URL** | Your Chatery WhatsApp API host URL (e.g., `https://api.chatery.app`) |
-| **API Key** | Your API key for authentication (X-Api-Key header) |
+| **URL** | Your Chatery WhatsApp API host URL (e.g., `https://api.chatery.io`) |
+| **API Key** | Your API key for authentication (optional, depending on your setup) |
 
 ## Nodes
 
@@ -55,7 +58,6 @@ This package includes two nodes:
 A webhook trigger node that listens for WhatsApp events from the Chatery API.
 
 **Supported Events:**
-
 | Event | Description |
 |-------|-------------|
 | `all` | Listen to all events |
@@ -125,23 +127,23 @@ Send messages to multiple recipients with background processing.
 |-----------|-------------|
 | **List** | List all available sessions |
 | **Connect** | Connect/start a new session |
-| **Get Status** | Get the status of a session |
+| **Status** | Get the status of a session |
 | **Update Config** | Update session configuration |
 | **Add Webhook** | Add a webhook URL to receive events |
 | **Remove Webhook** | Remove a webhook from the session |
-| **Get QR Code** | Get QR code as text for authentication |
-| **Get QR Image** | Get QR code as image for authentication |
+| **QR Code** | Get QR code as text for authentication |
+| **QR Image** | Get QR code as image for authentication |
 | **Delete** | Delete/terminate a session |
 
 ### History Resource
 
 | Operation | Description |
 |-----------|-------------|
-| **Get Overview** | Get an overview of all chats |
-| **Get Contacts** | Get list of all contacts |
-| **Get Messages** | Get messages from a specific chat |
-| **Get Chat Info** | Get detailed information about a chat |
-| **Mark as Read** | Mark messages in a chat as read |
+| **Overview** | Get an overview of all chats |
+| **Contacts** | Get list of all contacts |
+| **Messages** | Get messages from a specific chat |
+| **Info** | Get detailed information about a chat |
+| **Mark Read** | Mark messages in a chat as read |
 
 ### Group Resource
 
@@ -149,18 +151,18 @@ Send messages to multiple recipients with background processing.
 |-----------|-------------|
 | **List** | List all groups you're a member of |
 | **Create** | Create a new group |
-| **Get Metadata** | Get group metadata/information |
+| **Metadata** | Get group metadata/information |
 | **Add Participants** | Add participants to a group |
 | **Remove Participants** | Remove participants from a group |
 | **Promote Participants** | Promote participants to admin |
 | **Demote Participants** | Demote admins to regular participants |
 | **Update Subject** | Update group name/subject |
 | **Update Description** | Update group description |
-| **Update Settings** | Set who can send messages or edit group info |
 | **Update Picture** | Update group picture |
 | **Leave** | Leave a group |
 | **Get Invite Code** | Get group invite code |
 | **Revoke Invite** | Revoke and generate new invite code |
+| **Update Settings** | Set who can send messages or edit group info |
 | **Join** | Join a group using invite code |
 
 ## Compatibility
@@ -196,14 +198,34 @@ Send messages to multiple recipients with background processing.
 1. Use **Chatery WhatsApp** node
 2. Select **Session** resource
 3. Use **Connect** to start a new session
-4. Use **Get QR Image** to get the QR code for scanning
-5. Use **Get Status** to check connection status
+4. Use **QR Image** to get the QR code for scanning
+5. Use **Status** to check connection status
 
-## Links
+## Development
 
+### Build
+
+```bash
+npm run build
+```
+
+### Lint
+
+```bash
+npm run lint
+```
+
+### Run Tests
+
+```bash
+npm run test
+```
+
+## Resources
+
+- [n8n community nodes documentation](https://docs.n8n.io/integrations/community-nodes/)
 - [Chatery WhatsApp API](https://github.com/farinchan/chatery_whatsapp)
 - [Chatery Documentation](https://docs.chatery.app)
-- [n8n community nodes documentation](https://docs.n8n.io/integrations/community-nodes/)
 
 ## Author
 

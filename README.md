@@ -238,7 +238,6 @@ npm run test
 If you find this project helpful, consider supporting the development:
 
 - [Saweria](https://saweria.co/fajrichan)
-- [PayPal](https://paypal.me/farinchan)
 
 ## License
 

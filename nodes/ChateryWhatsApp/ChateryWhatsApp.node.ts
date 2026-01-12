@@ -357,9 +357,15 @@ export class ChateryWhatsApp implements INodeType {
 						action: 'Get profile picture URL of a contact',
 					},
 					{
+						name: 'Send Audio',
+						value: 'sendAudio',
+						description: 'Send an audio/voice note (OGG format only)',
+						action: 'Send an audio voice note',
+					},
+					{
 						name: 'Send Button',
 						value: 'sendButton',
-						description: 'Send a message with buttons',
+						description: 'Send a message with buttons (deprecated, uses Poll)',
 						action: 'Send a message with buttons',
 					},
 					{
@@ -385,6 +391,12 @@ export class ChateryWhatsApp implements INodeType {
 						value: 'sendLocation',
 						description: 'Send a location',
 						action: 'Send a location',
+					},
+					{
+						name: 'Send Poll',
+						value: 'sendPoll',
+						description: 'Send an interactive poll message',
+						action: 'Send an interactive poll message',
 					},
 					{
 						name: 'Send Presence Update',
@@ -486,7 +498,7 @@ export class ChateryWhatsApp implements INodeType {
 				displayOptions: {
 					show: {
 						resource: ['chat'],
-						operation: ['sendText', 'sendImage', 'sendDocument', 'sendLocation', 'sendContact', 'sendButton', 'sendPresenceUpdate'],
+						operation: ['sendText', 'sendImage', 'sendDocument', 'sendAudio', 'sendLocation', 'sendContact', 'sendButton', 'sendPoll', 'sendPresenceUpdate'],
 					},
 				},
 			},
@@ -587,9 +599,101 @@ export class ChateryWhatsApp implements INodeType {
 					},
 				},
 			},
+			{
+				displayName: 'Caption',
+				name: 'documentCaption',
+				type: 'string',
+				default: '',
+				description: 'Optional caption for the document',
+				displayOptions: {
+					show: {
+						resource: ['chat'],
+						operation: ['sendDocument'],
+					},
+				},
+			},
 
 			// ==========================================
 			// Send Location Fields
+			// ==========================================
+			{
+				displayName: 'Audio URL',
+				name: 'audioUrl',
+				type: 'string',
+				required: true,
+				default: '',
+				placeholder: 'https://example.com/audio.ogg',
+				description: 'The URL of the audio file to send (OGG format with Opus codec only)',
+				displayOptions: {
+					show: {
+						resource: ['chat'],
+						operation: ['sendAudio'],
+					},
+				},
+			},
+			{
+				displayName: 'Push To Talk (Voice Note)',
+				name: 'ptt',
+				type: 'boolean',
+				default: false,
+				description: 'Whether to send as voice note (true) or audio file (false)',
+				displayOptions: {
+					show: {
+						resource: ['chat'],
+						operation: ['sendAudio'],
+					},
+				},
+			},
+
+			// ==========================================
+			// Send Poll Fields
+			// ==========================================
+			{
+				displayName: 'Question',
+				name: 'pollQuestion',
+				type: 'string',
+				required: true,
+				default: '',
+				placeholder: 'What is your favorite color?',
+				description: 'The poll question',
+				displayOptions: {
+					show: {
+						resource: ['chat'],
+						operation: ['sendPoll'],
+					},
+				},
+			},
+			{
+				displayName: 'Options',
+				name: 'pollOptions',
+				type: 'string',
+				required: true,
+				default: '',
+				placeholder: 'Red,Blue,Green,Yellow',
+				description: 'Comma-separated list of poll options (2-12 items)',
+				displayOptions: {
+					show: {
+						resource: ['chat'],
+						operation: ['sendPoll'],
+					},
+				},
+			},
+			{
+				displayName: 'Selectable Count',
+				name: 'selectableCount',
+				type: 'number',
+				default: 1,
+				description: 'Number of options that can be selected (1 = single choice, >1 = multiple choice)',
+				displayOptions: {
+					show: {
+						resource: ['chat'],
+						operation: ['sendPoll'],
+					},
+				},
+			},
+
+			// ==========================================
+			// Send Location Fields (actual)
 			// ==========================================
 			{
 				displayName: 'Latitude',
@@ -816,7 +920,7 @@ export class ChateryWhatsApp implements INodeType {
 				displayOptions: {
 					show: {
 						resource: ['chat'],
-						operation: ['sendText', 'sendImage', 'sendDocument', 'sendLocation', 'sendContact', 'sendButton'],
+						operation: ['sendText', 'sendImage', 'sendDocument', 'sendAudio', 'sendLocation', 'sendContact', 'sendButton', 'sendPoll'],
 					},
 				},
 			},
@@ -829,7 +933,7 @@ export class ChateryWhatsApp implements INodeType {
 				displayOptions: {
 					show: {
 						resource: ['chat'],
-						operation: ['sendText', 'sendImage', 'sendDocument', 'sendLocation', 'sendContact', 'sendButton'],
+						operation: ['sendText', 'sendImage', 'sendDocument', 'sendAudio', 'sendLocation', 'sendContact', 'sendButton', 'sendPoll'],
 					},
 				},
 			},
@@ -934,6 +1038,19 @@ export class ChateryWhatsApp implements INodeType {
 				default: '',
 				placeholder: 'application/pdf',
 				description: 'The MIME type of the document (optional)',
+				displayOptions: {
+					show: {
+						resource: ['bulk'],
+						operation: ['sendBulkDocument'],
+					},
+				},
+			},
+			{
+				displayName: 'Caption',
+				name: 'bulkDocCaption',
+				type: 'string',
+				default: '',
+				description: 'Optional caption for the document',
 				displayOptions: {
 					show: {
 						resource: ['bulk'],
@@ -1409,6 +1526,7 @@ export class ChateryWhatsApp implements INodeType {
 						const documentUrl = this.getNodeParameter('documentUrl', i) as string;
 						const filename = this.getNodeParameter('filename', i) as string;
 						const mimetype = this.getNodeParameter('mimetype', i) as string;
+						const documentCaption = this.getNodeParameter('documentCaption', i) as string;
 						const typingTime = this.getNodeParameter('typingTime', i) as number;
 						const replyTo = this.getNodeParameter('replyTo', i) as string;
 
@@ -1421,6 +1539,9 @@ export class ChateryWhatsApp implements INodeType {
 						if (mimetype) {
 							body.mimetype = mimetype;
 						}
+						if (documentCaption) {
+							body.caption = documentCaption;
+						}
 						if (typingTime > 0) {
 							body.typingTime = typingTime;
 						}
@@ -1429,6 +1550,27 @@ export class ChateryWhatsApp implements INodeType {
 						}
 
 						responseData = await chateryApiRequest.call(this, 'POST', '/api/whatsapp/chats/send-document', body, credentials);
+					} else if (operation === 'sendAudio') {
+						const chatId = this.getNodeParameter('chatId', i) as string;
+						const audioUrl = this.getNodeParameter('audioUrl', i) as string;
+						const ptt = this.getNodeParameter('ptt', i) as boolean;
+						const typingTime = this.getNodeParameter('typingTime', i) as number;
+						const replyTo = this.getNodeParameter('replyTo', i) as string;
+
+						const body: IDataObject = {
+							sessionId,
+							chatId,
+							audioUrl,
+							ptt,
+						};
+						if (typingTime > 0) {
+							body.typingTime = typingTime;
+						}
+						if (replyTo) {
+							body.replyTo = replyTo;
+						}
+
+						responseData = await chateryApiRequest.call(this, 'POST', '/api/whatsapp/chats/send-audio', body, credentials);
 					} else if (operation === 'sendLocation') {
 						const chatId = this.getNodeParameter('chatId', i) as string;
 						const latitude = this.getNodeParameter('latitude', i) as number;
@@ -1508,6 +1650,33 @@ export class ChateryWhatsApp implements INodeType {
 						}
 
 						responseData = await chateryApiRequest.call(this, 'POST', '/api/whatsapp/chats/send-button', body, credentials);
+					} else if (operation === 'sendPoll') {
+						const chatId = this.getNodeParameter('chatId', i) as string;
+						const question = this.getNodeParameter('pollQuestion', i) as string;
+						const optionsStr = this.getNodeParameter('pollOptions', i) as string;
+						const selectableCount = this.getNodeParameter('selectableCount', i) as number;
+						const typingTime = this.getNodeParameter('typingTime', i) as number;
+						const replyTo = this.getNodeParameter('replyTo', i) as string;
+
+						const options = optionsStr.split(',').map((o) => o.trim()).filter((o) => o);
+
+						const body: IDataObject = {
+							sessionId,
+							chatId,
+							question,
+							options,
+						};
+						if (selectableCount > 1) {
+							body.selectableCount = selectableCount;
+						}
+						if (typingTime > 0) {
+							body.typingTime = typingTime;
+						}
+						if (replyTo) {
+							body.replyTo = replyTo;
+						}
+
+						responseData = await chateryApiRequest.call(this, 'POST', '/api/whatsapp/chats/send-poll', body, credentials);
 					} else if (operation === 'sendPresenceUpdate') {
 						const chatId = this.getNodeParameter('chatId', i) as string;
 						const presence = this.getNodeParameter('presence', i) as string;
@@ -1600,6 +1769,7 @@ export class ChateryWhatsApp implements INodeType {
 						const documentUrl = this.getNodeParameter('bulkDocumentUrl', i) as string;
 						const filename = this.getNodeParameter('bulkFilename', i) as string;
 						const mimetype = this.getNodeParameter('bulkMimetype', i) as string;
+						const bulkDocCaption = this.getNodeParameter('bulkDocCaption', i) as string;
 						const delayBetweenMessages = this.getNodeParameter('delayBetweenMessages', i) as number;
 						const typingTime = this.getNodeParameter('bulkTypingTime', i) as number;
 
@@ -1611,6 +1781,9 @@ export class ChateryWhatsApp implements INodeType {
 						};
 						if (mimetype) {
 							body.mimetype = mimetype;
+						}
+						if (bulkDocCaption) {
+							body.caption = bulkDocCaption;
 						}
 						if (delayBetweenMessages > 0) {
 							body.delayBetweenMessages = delayBetweenMessages;

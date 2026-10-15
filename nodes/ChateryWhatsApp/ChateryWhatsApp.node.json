@@ -15,7 +15,7 @@
 			}
 		]
 	},
-	"alias": ["WhatsApp", "Chatery", "Message", "Chat", "Send"],
+	"alias": ["WhatsApp", "Chatery", "Message", "Chat", "Send", "Contact", "Label", "Video", "Sticker", "Reaction"],
 	"subcategories": {
 		"Communication": ["WhatsApp"]
 	}

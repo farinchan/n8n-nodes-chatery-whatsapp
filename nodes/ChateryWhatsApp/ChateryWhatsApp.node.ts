@@ -48,12 +48,20 @@ export class ChateryWhatsApp implements INodeType {
 						value: 'chat',
 					},
 					{
+						name: 'Contact',
+						value: 'contact',
+					},
+					{
 						name: 'Group',
 						value: 'group',
 					},
 					{
 						name: 'History',
 						value: 'history',
+					},
+					{
+						name: 'Label',
+						value: 'label',
 					},
 					{
 						name: 'Session',
@@ -173,6 +181,18 @@ export class ChateryWhatsApp implements INodeType {
 						description: 'Update session configuration',
 						action: 'Update session configuration',
 					},
+					{
+						name: 'Update Profile Name',
+						value: 'updateProfileName',
+						description: 'Update WhatsApp account display name',
+						action: 'Update whats app profile display name',
+					},
+					{
+						name: 'Update Profile Status',
+						value: 'updateProfileStatus',
+						description: 'Update WhatsApp account status or bio',
+						action: 'Update whats app profile status',
+					},
 				],
 				default: 'list',
 			},
@@ -258,6 +278,12 @@ export class ChateryWhatsApp implements INodeType {
 						action: 'Get invite code for a group',
 					},
 					{
+						name: 'Get Invite Info',
+						value: 'getInviteInfo',
+						description: 'Get group information from invite code',
+						action: 'Get group information from invite code',
+					},
+					{
 						name: 'Get Metadata',
 						value: 'metadata',
 						description: 'Get group metadata',
@@ -339,10 +365,22 @@ export class ChateryWhatsApp implements INodeType {
 				},
 				options: [
 					{
+						name: 'Archive Chat',
+						value: 'archiveChat',
+						description: 'Archive or unarchive a chat',
+						action: 'Archive or unarchive a chat',
+					},
+					{
 						name: 'Check Number',
 						value: 'checkNumber',
 						description: 'Check if a phone number is registered on WhatsApp',
 						action: 'Check if a phone number is registered on whats app',
+					},
+					{
+						name: 'Delete Message',
+						value: 'deleteMessage',
+						description: 'Delete (revoke) a message for everyone',
+						action: 'Delete a message for everyone',
 					},
 					{
 						name: 'Get Contact Info',
@@ -355,6 +393,24 @@ export class ChateryWhatsApp implements INodeType {
 						value: 'profilePicture',
 						description: 'Get profile picture URL of a contact',
 						action: 'Get profile picture URL of a contact',
+					},
+					{
+						name: 'Mute Chat',
+						value: 'muteChat',
+						description: 'Mute or unmute notifications for a chat',
+						action: 'Mute or unmute a chat',
+					},
+					{
+						name: 'Pin Chat',
+						value: 'pinChat',
+						description: 'Pin or unpin a chat in chat list',
+						action: 'Pin or unpin a chat',
+					},
+					{
+						name: 'Pin Message',
+						value: 'pinMessage',
+						description: 'Pin a message in a chat',
+						action: 'Pin a message in a chat',
 					},
 					{
 						name: 'Send Audio',
@@ -405,17 +461,155 @@ export class ChateryWhatsApp implements INodeType {
 						action: 'Send presence update',
 					},
 					{
+						name: 'Send Reaction',
+						value: 'sendReaction',
+						description: 'Send an emoji reaction to a message',
+						action: 'Send an emoji reaction to a message',
+					},
+					{
+						name: 'Send Sticker',
+						value: 'sendSticker',
+						description: 'Send a sticker',
+						action: 'Send a sticker',
+					},
+					{
 						name: 'Send Text',
 						value: 'sendText',
 						description: 'Send a text message',
 						action: 'Send a text message',
 					},
+					{
+						name: 'Send Video',
+						value: 'sendVideo',
+						description: 'Send a video message',
+						action: 'Send a video message',
+					},
+					{
+						name: 'Star Message',
+						value: 'starMessage',
+						description: 'Star or unstar a message',
+						action: 'Star or unstar a message',
+					},
 				],
 				default: 'sendText',
 			},
+			// Operations for Contact
+			{
+				displayName: 'Operation',
+				name: 'operation',
+				type: 'options',
+				noDataExpression: true,
+				displayOptions: {
+					show: {
+						resource: ['contact'],
+					},
+				},
+				options: [
+					{
+						name: 'Add or Update',
+						value: 'add',
+						description: 'Add or update a contact in WhatsApp address book',
+						action: 'Add or update a contact',
+					},
+					{
+						name: 'Block or Unblock',
+						value: 'block',
+						description: 'Block or unblock a contact',
+						action: 'Block or unblock a contact',
+					},
+					{
+						name: 'Check Number',
+						value: 'checkNumber',
+						description: 'Check if a phone number is registered on WhatsApp',
+						action: 'Check if a phone number is registered on whats app',
+					},
+					{
+						name: 'Get Blocklist',
+						value: 'blocklist',
+						description: 'Get list of blocked contacts',
+						action: 'Get list of blocked contacts',
+					},
+					{
+						name: 'Get Business Profile',
+						value: 'businessProfile',
+						description: 'Get WhatsApp Business profile of a contact',
+						action: 'Get business profile of a contact',
+					},
+					{
+						name: 'Get Contact Info',
+						value: 'contactInfo',
+						description: 'Get contact information',
+						action: 'Get contact information',
+					},
+					{
+						name: 'Get Profile Picture',
+						value: 'profilePicture',
+						description: 'Get profile picture URL of a contact',
+						action: 'Get profile picture URL of a contact',
+					},
+					{
+						name: 'Get Status / About',
+						value: 'status',
+						description: 'Get status or bio about of a contact',
+						action: 'Get status of a contact',
+					},
+				],
+				default: 'add',
+			},
+			// Operations for Label
+			{
+				displayName: 'Operation',
+				name: 'operation',
+				type: 'options',
+				noDataExpression: true,
+				displayOptions: {
+					show: {
+						resource: ['label'],
+					},
+				},
+				options: [
+					{
+						name: 'Add Label to Chat',
+						value: 'addChat',
+						description: 'Add a label to a chat',
+						action: 'Add a label to a chat',
+					},
+					{
+						name: 'Create',
+						value: 'create',
+						description: 'Create or update a label',
+						action: 'Create a label',
+					},
+					{
+						name: 'Delete',
+						value: 'delete',
+						description: 'Delete a label',
+						action: 'Delete a label',
+					},
+					{
+						name: 'Get All',
+						value: 'list',
+						description: 'Get all WhatsApp Business labels',
+						action: 'Get all labels',
+					},
+					{
+						name: 'Get Chat Labels',
+						value: 'getChatLabels',
+						description: 'Get labels assigned to a chat',
+						action: 'Get labels assigned to a chat',
+					},
+					{
+						name: 'Remove Label From Chat',
+						value: 'removeChat',
+						description: 'Remove a label from a chat',
+						action: 'Remove a label from a chat',
+					},
+				],
+				default: 'list',
+			},
 
 			// ==========================================
-			// Common Fields
+			// Common Fields: Session ID
 			// ==========================================
 			{
 				displayName: 'Session ID',
@@ -452,8 +646,45 @@ export class ChateryWhatsApp implements INodeType {
 				description: 'The WhatsApp session ID',
 				displayOptions: {
 					show: {
+						resource: ['contact'],
+					},
+				},
+			},
+			{
+				displayName: 'Session ID',
+				name: 'sessionId',
+				type: 'string',
+				required: true,
+				default: '',
+				description: 'The WhatsApp session ID',
+				displayOptions: {
+					show: {
+						resource: ['label'],
+					},
+				},
+			},
+			{
+				displayName: 'Session ID',
+				name: 'sessionId',
+				type: 'string',
+				required: true,
+				default: '',
+				description: 'The WhatsApp session ID',
+				displayOptions: {
+					show: {
 						resource: ['session'],
-						operation: ['connect', 'status', 'updateConfig', 'addWebhook', 'removeWebhook', 'qrCode', 'qrImage', 'delete'],
+						operation: [
+							'connect',
+							'status',
+							'updateConfig',
+							'addWebhook',
+							'removeWebhook',
+							'qrCode',
+							'qrImage',
+							'delete',
+							'updateProfileName',
+							'updateProfileStatus',
+						],
 					},
 				},
 			},
@@ -485,7 +716,7 @@ export class ChateryWhatsApp implements INodeType {
 			},
 
 			// ==========================================
-			// Send Text Fields
+			// Common: Chat ID
 			// ==========================================
 			{
 				displayName: 'Chat ID',
@@ -498,10 +729,48 @@ export class ChateryWhatsApp implements INodeType {
 				displayOptions: {
 					show: {
 						resource: ['chat'],
-						operation: ['sendText', 'sendImage', 'sendDocument', 'sendAudio', 'sendLocation', 'sendContact', 'sendButton', 'sendPoll', 'sendPresenceUpdate'],
+						operation: [
+							'archiveChat',
+							'deleteMessage',
+							'muteChat',
+							'pinChat',
+							'pinMessage',
+							'sendAudio',
+							'sendButton',
+							'sendContact',
+							'sendDocument',
+							'sendImage',
+							'sendLocation',
+							'sendPoll',
+							'sendPresenceUpdate',
+							'sendReaction',
+							'sendSticker',
+							'sendText',
+							'sendVideo',
+							'starMessage',
+						],
 					},
 				},
 			},
+			{
+				displayName: 'Chat ID',
+				name: 'chatId',
+				type: 'string',
+				required: true,
+				default: '',
+				placeholder: '6281234567890@c.us',
+				description: 'The chat ID to associate with labels',
+				displayOptions: {
+					show: {
+						resource: ['label'],
+						operation: ['addChat', 'removeChat', 'getChatLabels'],
+					},
+				},
+			},
+
+			// ==========================================
+			// Send Text Fields
+			// ==========================================
 			{
 				displayName: 'Message',
 				name: 'message',
@@ -512,6 +781,20 @@ export class ChateryWhatsApp implements INodeType {
 				required: true,
 				default: '',
 				description: 'The text message to send',
+				displayOptions: {
+					show: {
+						resource: ['chat'],
+						operation: ['sendText'],
+					},
+				},
+			},
+			{
+				displayName: 'Mentions',
+				name: 'mentions',
+				type: 'string',
+				default: '',
+				placeholder: '6281234567890,628987654321',
+				description: 'Comma-separated phone numbers to mention in group chat',
 				displayOptions: {
 					show: {
 						resource: ['chat'],
@@ -614,7 +897,7 @@ export class ChateryWhatsApp implements INodeType {
 			},
 
 			// ==========================================
-			// Send Location Fields
+			// Send Audio Fields
 			// ==========================================
 			{
 				displayName: 'Audio URL',
@@ -641,6 +924,216 @@ export class ChateryWhatsApp implements INodeType {
 					show: {
 						resource: ['chat'],
 						operation: ['sendAudio'],
+					},
+				},
+			},
+
+			// ==========================================
+			// Send Video Fields
+			// ==========================================
+			{
+				displayName: 'Video URL',
+				name: 'videoUrl',
+				type: 'string',
+				required: true,
+				default: '',
+				placeholder: 'https://example.com/video.mp4',
+				description: 'The URL of the video to send',
+				displayOptions: {
+					show: {
+						resource: ['chat'],
+						operation: ['sendVideo'],
+					},
+				},
+			},
+			{
+				displayName: 'Video Caption',
+				name: 'videoCaption',
+				type: 'string',
+				default: '',
+				description: 'Optional caption for the video',
+				displayOptions: {
+					show: {
+						resource: ['chat'],
+						operation: ['sendVideo'],
+					},
+				},
+			},
+			{
+				displayName: 'GIF Playback',
+				name: 'gifPlayback',
+				type: 'boolean',
+				default: false,
+				description: 'Whether the video should be played as an animated GIF',
+				displayOptions: {
+					show: {
+						resource: ['chat'],
+						operation: ['sendVideo'],
+					},
+				},
+			},
+
+			// ==========================================
+			// Send Sticker Fields
+			// ==========================================
+			{
+				displayName: 'Sticker URL',
+				name: 'stickerUrl',
+				type: 'string',
+				required: true,
+				default: '',
+				placeholder: 'https://example.com/sticker.webp',
+				description: 'The URL of the sticker to send (WebP or image)',
+				displayOptions: {
+					show: {
+						resource: ['chat'],
+						operation: ['sendSticker'],
+					},
+				},
+			},
+
+			// ==========================================
+			// Message ID Field (Chat Operations)
+			// ==========================================
+			{
+				displayName: 'Message ID',
+				name: 'targetMessageId',
+				type: 'string',
+				required: true,
+				default: '',
+				placeholder: '3EB0...',
+				description: 'The ID of the target message',
+				displayOptions: {
+					show: {
+						resource: ['chat'],
+						operation: ['deleteMessage', 'pinMessage', 'sendReaction', 'starMessage'],
+					},
+				},
+			},
+
+			// ==========================================
+			// Send Reaction Fields
+			// ==========================================
+			{
+				displayName: 'Emoji',
+				name: 'reactionEmoji',
+				type: 'string',
+				default: '',
+				placeholder: '👍',
+				description: 'Emoji to react with. Leave empty to remove reaction.',
+				displayOptions: {
+					show: {
+						resource: ['chat'],
+						operation: ['sendReaction'],
+					},
+				},
+			},
+			{
+				displayName: 'From Me',
+				name: 'reactionFromMe',
+				type: 'boolean',
+				default: false,
+				description: 'Whether the target message was sent by you',
+				displayOptions: {
+					show: {
+						resource: ['chat'],
+						operation: ['sendReaction', 'pinMessage', 'starMessage'],
+					},
+				},
+			},
+
+			// ==========================================
+			// Pin Message Fields
+			// ==========================================
+			{
+				displayName: 'Pin Duration',
+				name: 'pinDuration',
+				type: 'options',
+				options: [
+					{ name: '24 Hours', value: 86400 },
+					{ name: '7 Days', value: 604800 },
+					{ name: '30 Days', value: 2592000 },
+				],
+				default: 604800,
+				description: 'Duration to keep the message pinned',
+				displayOptions: {
+					show: {
+						resource: ['chat'],
+						operation: ['pinMessage'],
+					},
+				},
+			},
+
+			// ==========================================
+			// Star Message Fields
+			// ==========================================
+			{
+				displayName: 'Star',
+				name: 'starStatus',
+				type: 'boolean',
+				default: true,
+				description: 'Whether to star (true) or unstar (false) the message',
+				displayOptions: {
+					show: {
+						resource: ['chat'],
+						operation: ['starMessage'],
+					},
+				},
+			},
+
+			// ==========================================
+			// Pin Chat Fields
+			// ==========================================
+			{
+				displayName: 'Pin',
+				name: 'chatPinStatus',
+				type: 'boolean',
+				default: true,
+				description: 'Whether to pin (true) or unpin (false) the chat',
+				displayOptions: {
+					show: {
+						resource: ['chat'],
+						operation: ['pinChat'],
+					},
+				},
+			},
+
+			// ==========================================
+			// Archive Chat Fields
+			// ==========================================
+			{
+				displayName: 'Archive',
+				name: 'chatArchiveStatus',
+				type: 'boolean',
+				default: true,
+				description: 'Whether to archive (true) or unarchive (false) the chat',
+				displayOptions: {
+					show: {
+						resource: ['chat'],
+						operation: ['archiveChat'],
+					},
+				},
+			},
+
+			// ==========================================
+			// Mute Chat Fields
+			// ==========================================
+			{
+				displayName: 'Mute Duration',
+				name: 'chatMuteDuration',
+				type: 'options',
+				options: [
+					{ name: 'Unmute', value: 0 },
+					{ name: '8 Hours', value: 28800 },
+					{ name: '1 Week', value: 604800 },
+					{ name: 'Always (Forever)', value: -1 },
+				],
+				default: 28800,
+				description: 'Duration to mute notifications for the chat',
+				displayOptions: {
+					show: {
+						resource: ['chat'],
+						operation: ['muteChat'],
 					},
 				},
 			},
@@ -693,7 +1186,7 @@ export class ChateryWhatsApp implements INodeType {
 			},
 
 			// ==========================================
-			// Send Location Fields (actual)
+			// Send Location Fields
 			// ==========================================
 			{
 				displayName: 'Latitude',
@@ -744,15 +1237,15 @@ export class ChateryWhatsApp implements INodeType {
 			},
 
 			// ==========================================
-			// Send Contact Fields
+			// Send Contact Card Fields (Chat)
 			// ==========================================
 			{
 				displayName: 'Contact Name',
-				name: 'contactName',
+				name: 'contactCardName',
 				type: 'string',
 				required: true,
 				default: '',
-				description: 'The name of the contact to send',
+				description: 'The name of the contact card to send',
 				displayOptions: {
 					show: {
 						resource: ['chat'],
@@ -762,12 +1255,12 @@ export class ChateryWhatsApp implements INodeType {
 			},
 			{
 				displayName: 'Contact Phone',
-				name: 'contactPhone',
+				name: 'contactCardPhone',
 				type: 'string',
 				required: true,
 				default: '',
 				placeholder: '6281234567890',
-				description: 'The phone number of the contact',
+				description: 'The phone number of the contact card',
 				displayOptions: {
 					show: {
 						resource: ['chat'],
@@ -890,7 +1383,7 @@ export class ChateryWhatsApp implements INodeType {
 			},
 
 			// ==========================================
-			// Check Number / Profile Picture / Contact Info Fields
+			// Phone Number Field (Chat & Contact)
 			// ==========================================
 			{
 				displayName: 'Phone Number',
@@ -899,7 +1392,7 @@ export class ChateryWhatsApp implements INodeType {
 				required: true,
 				default: '',
 				placeholder: '6281234567890',
-				description: 'The phone number to check (without + or spaces)',
+				description: 'The phone number (e.g. 6281234567890 without + or spaces)',
 				displayOptions: {
 					show: {
 						resource: ['chat'],
@@ -907,9 +1400,24 @@ export class ChateryWhatsApp implements INodeType {
 					},
 				},
 			},
+			{
+				displayName: 'Phone Number',
+				name: 'phone',
+				type: 'string',
+				required: true,
+				default: '',
+				placeholder: '6281234567890',
+				description: 'The phone number (e.g. 6281234567890 without + or spaces)',
+				displayOptions: {
+					show: {
+						resource: ['contact'],
+						operation: ['add', 'block', 'businessProfile', 'checkNumber', 'contactInfo', 'profilePicture', 'status'],
+					},
+				},
+			},
 
 			// ==========================================
-			// Common Optional Fields
+			// Common Optional Fields (Chat)
 			// ==========================================
 			{
 				displayName: 'Typing Time',
@@ -920,7 +1428,17 @@ export class ChateryWhatsApp implements INodeType {
 				displayOptions: {
 					show: {
 						resource: ['chat'],
-						operation: ['sendText', 'sendImage', 'sendDocument', 'sendAudio', 'sendLocation', 'sendContact', 'sendButton', 'sendPoll'],
+						operation: [
+							'sendAudio',
+							'sendButton',
+							'sendContact',
+							'sendDocument',
+							'sendImage',
+							'sendLocation',
+							'sendPoll',
+							'sendText',
+							'sendVideo',
+						],
 					},
 				},
 			},
@@ -933,7 +1451,170 @@ export class ChateryWhatsApp implements INodeType {
 				displayOptions: {
 					show: {
 						resource: ['chat'],
-						operation: ['sendText', 'sendImage', 'sendDocument', 'sendAudio', 'sendLocation', 'sendContact', 'sendButton', 'sendPoll'],
+						operation: [
+							'sendAudio',
+							'sendButton',
+							'sendContact',
+							'sendDocument',
+							'sendImage',
+							'sendLocation',
+							'sendPoll',
+							'sendSticker',
+							'sendText',
+							'sendVideo',
+						],
+					},
+				},
+			},
+
+			// ==========================================
+			// Contact Fields
+			// ==========================================
+			{
+				displayName: 'Contact Name',
+				name: 'targetContactName',
+				type: 'string',
+				required: true,
+				default: '',
+				description: 'The name of the contact in address book',
+				displayOptions: {
+					show: {
+						resource: ['contact'],
+						operation: ['add'],
+					},
+				},
+			},
+			{
+				displayName: 'First Name',
+				name: 'contactFirstName',
+				type: 'string',
+				default: '',
+				description: 'Optional first name for the contact',
+				displayOptions: {
+					show: {
+						resource: ['contact'],
+						operation: ['add'],
+					},
+				},
+			},
+			{
+				displayName: 'Sync to Primary Phone',
+				name: 'syncContactToPhone',
+				type: 'boolean',
+				default: false,
+				description: 'Whether to sync contact to primary phone native address book',
+				displayOptions: {
+					show: {
+						resource: ['contact'],
+						operation: ['add'],
+					},
+				},
+			},
+			{
+				displayName: 'Action',
+				name: 'contactBlockAction',
+				type: 'options',
+				options: [
+					{ name: 'Block', value: 'block' },
+					{ name: 'Unblock', value: 'unblock' },
+				],
+				default: 'block',
+				description: 'Whether to block or unblock the contact',
+				displayOptions: {
+					show: {
+						resource: ['contact'],
+						operation: ['block'],
+					},
+				},
+			},
+
+			// ==========================================
+			// Label Fields
+			// ==========================================
+			{
+				displayName: 'Label Name',
+				name: 'labelName',
+				type: 'string',
+				required: true,
+				default: '',
+				placeholder: 'Important',
+				description: 'Name of the label',
+				displayOptions: {
+					show: {
+						resource: ['label'],
+						operation: ['create'],
+					},
+				},
+			},
+			{
+				displayName: 'Color ID',
+				name: 'labelColorId',
+				type: 'number',
+				default: 0,
+				description: 'Color ID for the label (0 to 19)',
+				displayOptions: {
+					show: {
+						resource: ['label'],
+						operation: ['create'],
+					},
+				},
+			},
+			{
+				displayName: 'Existing Label ID',
+				name: 'editLabelId',
+				type: 'string',
+				default: '',
+				description: 'Optional ID if updating an existing label',
+				displayOptions: {
+					show: {
+						resource: ['label'],
+						operation: ['create'],
+					},
+				},
+			},
+			{
+				displayName: 'Label ID',
+				name: 'labelId',
+				type: 'string',
+				required: true,
+				default: '',
+				description: 'The unique ID of the label',
+				displayOptions: {
+					show: {
+						resource: ['label'],
+						operation: ['addChat', 'delete', 'removeChat'],
+					},
+				},
+			},
+
+			// ==========================================
+			// Session: Profile Fields
+			// ==========================================
+			{
+				displayName: 'Display Name',
+				name: 'profileName',
+				type: 'string',
+				required: true,
+				default: '',
+				description: 'New display name for your WhatsApp profile',
+				displayOptions: {
+					show: {
+						resource: ['session'],
+						operation: ['updateProfileName'],
+					},
+				},
+			},
+			{
+				displayName: 'Status / Bio',
+				name: 'profileStatus',
+				type: 'string',
+				required: true,
+				default: '',
+				description: 'New status/about text for your WhatsApp profile',
+				displayOptions: {
+					show: {
+						resource: ['session'],
+						operation: ['updateProfileStatus'],
 					},
 				},
 			},
@@ -1244,7 +1925,7 @@ export class ChateryWhatsApp implements INodeType {
 				displayOptions: {
 					show: {
 						resource: ['history'],
-						operation: ['overview', 'contacts', 'messages'],
+						operation: ['contacts', 'messages', 'overview'],
 					},
 				},
 			},
@@ -1257,7 +1938,7 @@ export class ChateryWhatsApp implements INodeType {
 				displayOptions: {
 					show: {
 						resource: ['history'],
-						operation: ['overview', 'contacts'],
+						operation: ['contacts', 'overview'],
 					},
 				},
 			},
@@ -1303,7 +1984,7 @@ export class ChateryWhatsApp implements INodeType {
 				displayOptions: {
 					show: {
 						resource: ['history'],
-						operation: ['messages', 'info', 'markRead'],
+						operation: ['info', 'markRead', 'messages'],
 					},
 				},
 			},
@@ -1344,11 +2025,24 @@ export class ChateryWhatsApp implements INodeType {
 				required: true,
 				default: '',
 				placeholder: '123456789012345678@g.us',
-
+				description: 'The group ID (e.g. 123456789012345678@g.us)',
 				displayOptions: {
 					show: {
 						resource: ['group'],
-						operation: ['metadata', 'addParticipants', 'removeParticipants', 'promoteParticipants', 'demoteParticipants', 'updateSubject', 'updateDescription', 'updateSettings', 'updatePicture', 'leave', 'getInviteCode', 'revokeInvite'],
+						operation: [
+							'addParticipants',
+							'demoteParticipants',
+							'getInviteCode',
+							'leave',
+							'metadata',
+							'promoteParticipants',
+							'removeParticipants',
+							'revokeInvite',
+							'updateDescription',
+							'updatePicture',
+							'updateSettings',
+							'updateSubject',
+						],
 					},
 				},
 			},
@@ -1377,7 +2071,7 @@ export class ChateryWhatsApp implements INodeType {
 				displayOptions: {
 					show: {
 						resource: ['group'],
-						operation: ['create', 'addParticipants', 'removeParticipants', 'promoteParticipants', 'demoteParticipants'],
+						operation: ['addParticipants', 'create', 'demoteParticipants', 'promoteParticipants', 'removeParticipants'],
 					},
 				},
 			},
@@ -1454,11 +2148,11 @@ export class ChateryWhatsApp implements INodeType {
 				required: true,
 				default: '',
 				placeholder: 'AbCdEfGhIjK',
-				description: 'The invite code to join a group',
+				description: 'The invite code of the group',
 				displayOptions: {
 					show: {
 						resource: ['group'],
-						operation: ['join'],
+						operation: ['getInviteInfo', 'join'],
 					},
 				},
 			},
@@ -1482,8 +2176,9 @@ export class ChateryWhatsApp implements INodeType {
 					if (operation === 'sendText') {
 						const chatId = this.getNodeParameter('chatId', i) as string;
 						const message = this.getNodeParameter('message', i) as string;
-						const typingTime = this.getNodeParameter('typingTime', i) as number;
-						const replyTo = this.getNodeParameter('replyTo', i) as string;
+						const typingTime = this.getNodeParameter('typingTime', i, 0) as number;
+						const replyTo = this.getNodeParameter('replyTo', i, '') as string;
+						const mentionsStr = this.getNodeParameter('mentions', i, '') as string;
 
 						const body: IDataObject = {
 							sessionId,
@@ -1496,14 +2191,17 @@ export class ChateryWhatsApp implements INodeType {
 						if (replyTo) {
 							body.replyTo = replyTo;
 						}
+						if (mentionsStr) {
+							body.mentions = mentionsStr.split(',').map((m) => m.trim()).filter((m) => m);
+						}
 
 						responseData = await chateryApiRequest.call(this, 'POST', '/api/whatsapp/chats/send-text', body, credentials);
 					} else if (operation === 'sendImage') {
 						const chatId = this.getNodeParameter('chatId', i) as string;
 						const imageUrl = this.getNodeParameter('imageUrl', i) as string;
-						const caption = this.getNodeParameter('caption', i) as string;
-						const typingTime = this.getNodeParameter('typingTime', i) as number;
-						const replyTo = this.getNodeParameter('replyTo', i) as string;
+						const caption = this.getNodeParameter('caption', i, '') as string;
+						const typingTime = this.getNodeParameter('typingTime', i, 0) as number;
+						const replyTo = this.getNodeParameter('replyTo', i, '') as string;
 
 						const body: IDataObject = {
 							sessionId,
@@ -1525,10 +2223,10 @@ export class ChateryWhatsApp implements INodeType {
 						const chatId = this.getNodeParameter('chatId', i) as string;
 						const documentUrl = this.getNodeParameter('documentUrl', i) as string;
 						const filename = this.getNodeParameter('filename', i) as string;
-						const mimetype = this.getNodeParameter('mimetype', i) as string;
-						const documentCaption = this.getNodeParameter('documentCaption', i) as string;
-						const typingTime = this.getNodeParameter('typingTime', i) as number;
-						const replyTo = this.getNodeParameter('replyTo', i) as string;
+						const mimetype = this.getNodeParameter('mimetype', i, '') as string;
+						const documentCaption = this.getNodeParameter('documentCaption', i, '') as string;
+						const typingTime = this.getNodeParameter('typingTime', i, 0) as number;
+						const replyTo = this.getNodeParameter('replyTo', i, '') as string;
 
 						const body: IDataObject = {
 							sessionId,
@@ -1553,9 +2251,9 @@ export class ChateryWhatsApp implements INodeType {
 					} else if (operation === 'sendAudio') {
 						const chatId = this.getNodeParameter('chatId', i) as string;
 						const audioUrl = this.getNodeParameter('audioUrl', i) as string;
-						const ptt = this.getNodeParameter('ptt', i) as boolean;
-						const typingTime = this.getNodeParameter('typingTime', i) as number;
-						const replyTo = this.getNodeParameter('replyTo', i) as string;
+						const ptt = this.getNodeParameter('ptt', i, false) as boolean;
+						const typingTime = this.getNodeParameter('typingTime', i, 0) as number;
+						const replyTo = this.getNodeParameter('replyTo', i, '') as string;
 
 						const body: IDataObject = {
 							sessionId,
@@ -1571,13 +2269,144 @@ export class ChateryWhatsApp implements INodeType {
 						}
 
 						responseData = await chateryApiRequest.call(this, 'POST', '/api/whatsapp/chats/send-audio', body, credentials);
+					} else if (operation === 'sendVideo') {
+						const chatId = this.getNodeParameter('chatId', i) as string;
+						const videoUrl = this.getNodeParameter('videoUrl', i) as string;
+						const caption = this.getNodeParameter('videoCaption', i, '') as string;
+						const gifPlayback = this.getNodeParameter('gifPlayback', i, false) as boolean;
+						const typingTime = this.getNodeParameter('typingTime', i, 0) as number;
+						const replyTo = this.getNodeParameter('replyTo', i, '') as string;
+
+						const body: IDataObject = {
+							sessionId,
+							chatId,
+							videoUrl,
+						};
+						if (caption) {
+							body.caption = caption;
+						}
+						if (gifPlayback) {
+							body.gifPlayback = gifPlayback;
+						}
+						if (typingTime > 0) {
+							body.typingTime = typingTime;
+						}
+						if (replyTo) {
+							body.replyTo = replyTo;
+						}
+
+						responseData = await chateryApiRequest.call(this, 'POST', '/api/whatsapp/chats/send-video', body, credentials);
+					} else if (operation === 'sendSticker') {
+						const chatId = this.getNodeParameter('chatId', i) as string;
+						const stickerUrl = this.getNodeParameter('stickerUrl', i) as string;
+						const replyTo = this.getNodeParameter('replyTo', i, '') as string;
+
+						const body: IDataObject = {
+							sessionId,
+							chatId,
+							stickerUrl,
+						};
+						if (replyTo) {
+							body.replyTo = replyTo;
+						}
+
+						responseData = await chateryApiRequest.call(this, 'POST', '/api/whatsapp/chats/send-sticker', body, credentials);
+					} else if (operation === 'sendReaction') {
+						const chatId = this.getNodeParameter('chatId', i) as string;
+						const messageId = this.getNodeParameter('targetMessageId', i) as string;
+						const emoji = this.getNodeParameter('reactionEmoji', i, '') as string;
+						const fromMe = this.getNodeParameter('reactionFromMe', i, false) as boolean;
+
+						const body: IDataObject = {
+							sessionId,
+							chatId,
+							messageId,
+							emoji,
+							fromMe,
+						};
+
+						responseData = await chateryApiRequest.call(this, 'POST', '/api/whatsapp/chats/send-reaction', body, credentials);
+					} else if (operation === 'deleteMessage') {
+						const chatId = this.getNodeParameter('chatId', i) as string;
+						const messageId = this.getNodeParameter('targetMessageId', i) as string;
+
+						const body: IDataObject = {
+							sessionId,
+							chatId,
+							messageId,
+						};
+
+						responseData = await chateryApiRequest.call(this, 'POST', '/api/whatsapp/chats/delete-message', body, credentials);
+					} else if (operation === 'pinMessage') {
+						const chatId = this.getNodeParameter('chatId', i) as string;
+						const messageId = this.getNodeParameter('targetMessageId', i) as string;
+						const time = this.getNodeParameter('pinDuration', i, 604800) as number;
+						const fromMe = this.getNodeParameter('reactionFromMe', i, false) as boolean;
+
+						const body: IDataObject = {
+							sessionId,
+							chatId,
+							messageId,
+							time,
+							fromMe,
+						};
+
+						responseData = await chateryApiRequest.call(this, 'POST', '/api/whatsapp/chats/pin-message', body, credentials);
+					} else if (operation === 'starMessage') {
+						const chatId = this.getNodeParameter('chatId', i) as string;
+						const messageId = this.getNodeParameter('targetMessageId', i) as string;
+						const star = this.getNodeParameter('starStatus', i, true) as boolean;
+						const fromMe = this.getNodeParameter('reactionFromMe', i, false) as boolean;
+
+						const body: IDataObject = {
+							sessionId,
+							chatId,
+							messageId,
+							star,
+							fromMe,
+						};
+
+						responseData = await chateryApiRequest.call(this, 'POST', '/api/whatsapp/chats/star-message', body, credentials);
+					} else if (operation === 'pinChat') {
+						const chatId = this.getNodeParameter('chatId', i) as string;
+						const pin = this.getNodeParameter('chatPinStatus', i, true) as boolean;
+
+						const body: IDataObject = {
+							sessionId,
+							chatId,
+							pin,
+						};
+
+						responseData = await chateryApiRequest.call(this, 'POST', '/api/whatsapp/chats/pin', body, credentials);
+					} else if (operation === 'archiveChat') {
+						const chatId = this.getNodeParameter('chatId', i) as string;
+						const archive = this.getNodeParameter('chatArchiveStatus', i, true) as boolean;
+
+						const body: IDataObject = {
+							sessionId,
+							chatId,
+							archive,
+						};
+
+						responseData = await chateryApiRequest.call(this, 'POST', '/api/whatsapp/chats/archive', body, credentials);
+					} else if (operation === 'muteChat') {
+						const chatId = this.getNodeParameter('chatId', i) as string;
+						const duration = this.getNodeParameter('chatMuteDuration', i, 28800) as number;
+
+						const body: IDataObject = {
+							sessionId,
+							chatId,
+							duration,
+						};
+
+						responseData = await chateryApiRequest.call(this, 'POST', '/api/whatsapp/chats/mute', body, credentials);
 					} else if (operation === 'sendLocation') {
 						const chatId = this.getNodeParameter('chatId', i) as string;
 						const latitude = this.getNodeParameter('latitude', i) as number;
 						const longitude = this.getNodeParameter('longitude', i) as number;
-						const locationName = this.getNodeParameter('locationName', i) as string;
-						const typingTime = this.getNodeParameter('typingTime', i) as number;
-						const replyTo = this.getNodeParameter('replyTo', i) as string;
+						const locationName = this.getNodeParameter('locationName', i, '') as string;
+						const typingTime = this.getNodeParameter('typingTime', i, 0) as number;
+						const replyTo = this.getNodeParameter('replyTo', i, '') as string;
 
 						const body: IDataObject = {
 							sessionId,
@@ -1598,10 +2427,10 @@ export class ChateryWhatsApp implements INodeType {
 						responseData = await chateryApiRequest.call(this, 'POST', '/api/whatsapp/chats/send-location', body, credentials);
 					} else if (operation === 'sendContact') {
 						const chatId = this.getNodeParameter('chatId', i) as string;
-						const contactName = this.getNodeParameter('contactName', i) as string;
-						const contactPhone = this.getNodeParameter('contactPhone', i) as string;
-						const typingTime = this.getNodeParameter('typingTime', i) as number;
-						const replyTo = this.getNodeParameter('replyTo', i) as string;
+						const contactName = this.getNodeParameter('contactCardName', i) as string;
+						const contactPhone = this.getNodeParameter('contactCardPhone', i) as string;
+						const typingTime = this.getNodeParameter('typingTime', i, 0) as number;
+						const replyTo = this.getNodeParameter('replyTo', i, '') as string;
 
 						const body: IDataObject = {
 							sessionId,
@@ -1620,10 +2449,10 @@ export class ChateryWhatsApp implements INodeType {
 					} else if (operation === 'sendButton') {
 						const chatId = this.getNodeParameter('chatId', i) as string;
 						const text = this.getNodeParameter('buttonText', i) as string;
-						const footer = this.getNodeParameter('footer', i) as string;
-						const buttonsData = this.getNodeParameter('buttons', i) as IDataObject;
-						const typingTime = this.getNodeParameter('typingTime', i) as number;
-						const replyTo = this.getNodeParameter('replyTo', i) as string;
+						const footer = this.getNodeParameter('footer', i, '') as string;
+						const buttonsData = this.getNodeParameter('buttons', i, {}) as IDataObject;
+						const typingTime = this.getNodeParameter('typingTime', i, 0) as number;
+						const replyTo = this.getNodeParameter('replyTo', i, '') as string;
 
 						const buttons: string[] = [];
 						if (buttonsData.buttonValues) {
@@ -1654,9 +2483,9 @@ export class ChateryWhatsApp implements INodeType {
 						const chatId = this.getNodeParameter('chatId', i) as string;
 						const question = this.getNodeParameter('pollQuestion', i) as string;
 						const optionsStr = this.getNodeParameter('pollOptions', i) as string;
-						const selectableCount = this.getNodeParameter('selectableCount', i) as number;
-						const typingTime = this.getNodeParameter('typingTime', i) as number;
-						const replyTo = this.getNodeParameter('replyTo', i) as string;
+						const selectableCount = this.getNodeParameter('selectableCount', i, 1) as number;
+						const typingTime = this.getNodeParameter('typingTime', i, 0) as number;
+						const replyTo = this.getNodeParameter('replyTo', i, '') as string;
 
 						const options = optionsStr.split(',').map((o) => o.trim()).filter((o) => o);
 
@@ -1718,13 +2547,114 @@ export class ChateryWhatsApp implements INodeType {
 					} else {
 						throw new NodeApiError(this.getNode(), { message: `Unknown operation: ${operation}` });
 					}
+				} else if (resource === 'contact') {
+					if (operation === 'add') {
+						const phone = this.getNodeParameter('phone', i) as string;
+						const name = this.getNodeParameter('targetContactName', i) as string;
+						const firstName = this.getNodeParameter('contactFirstName', i, '') as string;
+						const syncContactToPhone = this.getNodeParameter('syncContactToPhone', i, false) as boolean;
+
+						const body: IDataObject = {
+							sessionId,
+							phone,
+							name,
+						};
+						if (firstName) {
+							body.firstName = firstName;
+						}
+						if (syncContactToPhone) {
+							body.syncContactToPhone = syncContactToPhone;
+						}
+
+						responseData = await chateryApiRequest.call(this, 'POST', '/api/whatsapp/contacts/add', body, credentials);
+					} else if (operation === 'status') {
+						const phone = this.getNodeParameter('phone', i) as string;
+						const body: IDataObject = { sessionId, phone };
+						responseData = await chateryApiRequest.call(this, 'POST', '/api/whatsapp/contacts/status', body, credentials);
+					} else if (operation === 'businessProfile') {
+						const phone = this.getNodeParameter('phone', i) as string;
+						const body: IDataObject = { sessionId, phone };
+						responseData = await chateryApiRequest.call(this, 'POST', '/api/whatsapp/contacts/business-profile', body, credentials);
+					} else if (operation === 'block') {
+						const phone = this.getNodeParameter('phone', i) as string;
+						const action = this.getNodeParameter('contactBlockAction', i, 'block') as string;
+						const body: IDataObject = { sessionId, phone, action };
+						responseData = await chateryApiRequest.call(this, 'POST', '/api/whatsapp/contacts/block', body, credentials);
+					} else if (operation === 'blocklist') {
+						const body: IDataObject = { sessionId };
+						responseData = await chateryApiRequest.call(this, 'POST', '/api/whatsapp/contacts/blocklist', body, credentials);
+					} else if (operation === 'checkNumber') {
+						const phone = this.getNodeParameter('phone', i) as string;
+						const body: IDataObject = { sessionId, phone };
+						responseData = await chateryApiRequest.call(this, 'POST', '/api/whatsapp/chats/check-number', body, credentials);
+					} else if (operation === 'profilePicture') {
+						const phone = this.getNodeParameter('phone', i) as string;
+						const body: IDataObject = { sessionId, phone };
+						responseData = await chateryApiRequest.call(this, 'POST', '/api/whatsapp/chats/profile-picture', body, credentials);
+					} else if (operation === 'contactInfo') {
+						const phone = this.getNodeParameter('phone', i) as string;
+						const body: IDataObject = { sessionId, phone };
+						responseData = await chateryApiRequest.call(this, 'POST', '/api/whatsapp/chats/contact-info', body, credentials);
+					} else {
+						throw new NodeApiError(this.getNode(), { message: `Unknown operation: ${operation}` });
+					}
+
+					const executionData = this.helpers.constructExecutionMetaData(
+						this.helpers.returnJsonArray(responseData),
+						{ itemData: { item: i } },
+					);
+					returnData.push(...executionData);
+					continue;
+				} else if (resource === 'label') {
+					if (operation === 'list') {
+						const body: IDataObject = { sessionId };
+						responseData = await chateryApiRequest.call(this, 'POST', '/api/whatsapp/labels', body, credentials);
+					} else if (operation === 'create') {
+						const name = this.getNodeParameter('labelName', i) as string;
+						const colorId = this.getNodeParameter('labelColorId', i, 0) as number;
+						const labelId = this.getNodeParameter('editLabelId', i, '') as string;
+
+						const body: IDataObject = { sessionId, name, colorId };
+						if (labelId) {
+							body.labelId = labelId;
+						}
+
+						responseData = await chateryApiRequest.call(this, 'POST', '/api/whatsapp/labels/create', body, credentials);
+					} else if (operation === 'delete') {
+						const labelId = this.getNodeParameter('labelId', i) as string;
+						const body: IDataObject = { sessionId, labelId };
+						responseData = await chateryApiRequest.call(this, 'POST', '/api/whatsapp/labels/delete', body, credentials);
+					} else if (operation === 'addChat') {
+						const chatId = this.getNodeParameter('chatId', i) as string;
+						const labelId = this.getNodeParameter('labelId', i) as string;
+						const body: IDataObject = { sessionId, chatId, labelId };
+						responseData = await chateryApiRequest.call(this, 'POST', '/api/whatsapp/labels/chat/add', body, credentials);
+					} else if (operation === 'removeChat') {
+						const chatId = this.getNodeParameter('chatId', i) as string;
+						const labelId = this.getNodeParameter('labelId', i) as string;
+						const body: IDataObject = { sessionId, chatId, labelId };
+						responseData = await chateryApiRequest.call(this, 'POST', '/api/whatsapp/labels/chat/remove', body, credentials);
+					} else if (operation === 'getChatLabels') {
+						const chatId = this.getNodeParameter('chatId', i) as string;
+						const body: IDataObject = { sessionId, chatId };
+						responseData = await chateryApiRequest.call(this, 'POST', '/api/whatsapp/labels/chat', body, credentials);
+					} else {
+						throw new NodeApiError(this.getNode(), { message: `Unknown operation: ${operation}` });
+					}
+
+					const executionData = this.helpers.constructExecutionMetaData(
+						this.helpers.returnJsonArray(responseData),
+						{ itemData: { item: i } },
+					);
+					returnData.push(...executionData);
+					continue;
 				} else if (resource === 'bulk') {
 					if (operation === 'sendBulkText') {
 						const recipientsStr = this.getNodeParameter('recipients', i) as string;
 						const recipients = recipientsStr.split(',').map((r) => r.trim()).filter((r) => r);
 						const message = this.getNodeParameter('bulkMessage', i) as string;
-						const delayBetweenMessages = this.getNodeParameter('delayBetweenMessages', i) as number;
-						const typingTime = this.getNodeParameter('bulkTypingTime', i) as number;
+						const delayBetweenMessages = this.getNodeParameter('delayBetweenMessages', i, 1000) as number;
+						const typingTime = this.getNodeParameter('bulkTypingTime', i, 0) as number;
 
 						const body: IDataObject = {
 							sessionId,
@@ -1743,9 +2673,9 @@ export class ChateryWhatsApp implements INodeType {
 						const recipientsStr = this.getNodeParameter('recipients', i) as string;
 						const recipients = recipientsStr.split(',').map((r) => r.trim()).filter((r) => r);
 						const imageUrl = this.getNodeParameter('bulkImageUrl', i) as string;
-						const caption = this.getNodeParameter('bulkCaption', i) as string;
-						const delayBetweenMessages = this.getNodeParameter('delayBetweenMessages', i) as number;
-						const typingTime = this.getNodeParameter('bulkTypingTime', i) as number;
+						const caption = this.getNodeParameter('bulkCaption', i, '') as string;
+						const delayBetweenMessages = this.getNodeParameter('delayBetweenMessages', i, 1000) as number;
+						const typingTime = this.getNodeParameter('bulkTypingTime', i, 0) as number;
 
 						const body: IDataObject = {
 							sessionId,
@@ -1768,10 +2698,10 @@ export class ChateryWhatsApp implements INodeType {
 						const recipients = recipientsStr.split(',').map((r) => r.trim()).filter((r) => r);
 						const documentUrl = this.getNodeParameter('bulkDocumentUrl', i) as string;
 						const filename = this.getNodeParameter('bulkFilename', i) as string;
-						const mimetype = this.getNodeParameter('bulkMimetype', i) as string;
-						const bulkDocCaption = this.getNodeParameter('bulkDocCaption', i) as string;
-						const delayBetweenMessages = this.getNodeParameter('delayBetweenMessages', i) as number;
-						const typingTime = this.getNodeParameter('bulkTypingTime', i) as number;
+						const mimetype = this.getNodeParameter('bulkMimetype', i, '') as string;
+						const bulkDocCaption = this.getNodeParameter('bulkDocCaption', i, '') as string;
+						const delayBetweenMessages = this.getNodeParameter('delayBetweenMessages', i, 1000) as number;
+						const typingTime = this.getNodeParameter('bulkTypingTime', i, 0) as number;
 
 						const body: IDataObject = {
 							sessionId,
@@ -1812,14 +2742,11 @@ export class ChateryWhatsApp implements INodeType {
 					returnData.push(...executionData);
 					continue;
 				} else if (resource === 'session') {
-					let responseData: IDataObject;
-
 					if (operation === 'list') {
 						responseData = await chateryApiRequestGet.call(this, 'GET', '/api/whatsapp/sessions', credentials);
 					} else if (operation === 'connect') {
-						const sessionId = this.getNodeParameter('sessionId', i) as string;
-						const metadataStr = this.getNodeParameter('metadata', i) as string;
-						const webhooksData = this.getNodeParameter('webhooks', i) as IDataObject;
+						const metadataStr = this.getNodeParameter('metadata', i, '{}') as string;
+						const webhooksData = this.getNodeParameter('webhooks', i, {}) as IDataObject;
 
 						const body: IDataObject = {};
 						if (metadataStr && metadataStr !== '{}') {
@@ -1839,12 +2766,10 @@ export class ChateryWhatsApp implements INodeType {
 
 						responseData = await chateryApiRequest.call(this, 'POST', `/api/whatsapp/sessions/${sessionId}/connect`, body, credentials);
 					} else if (operation === 'status') {
-						const sessionId = this.getNodeParameter('sessionId', i) as string;
 						responseData = await chateryApiRequestGet.call(this, 'GET', `/api/whatsapp/sessions/${sessionId}/status`, credentials);
 					} else if (operation === 'updateConfig') {
-						const sessionId = this.getNodeParameter('sessionId', i) as string;
-						const metadataStr = this.getNodeParameter('metadata', i) as string;
-						const webhooksData = this.getNodeParameter('webhooks', i) as IDataObject;
+						const metadataStr = this.getNodeParameter('metadata', i, '{}') as string;
+						const webhooksData = this.getNodeParameter('webhooks', i, {}) as IDataObject;
 
 						const body: IDataObject = {};
 						if (metadataStr && metadataStr !== '{}') {
@@ -1864,9 +2789,8 @@ export class ChateryWhatsApp implements INodeType {
 
 						responseData = await chateryApiRequestPatch.call(this, 'PATCH', `/api/whatsapp/sessions/${sessionId}/config`, body, credentials);
 					} else if (operation === 'addWebhook') {
-						const sessionId = this.getNodeParameter('sessionId', i) as string;
 						const webhookUrl = this.getNodeParameter('webhookUrl', i) as string;
-						const webhookEvents = this.getNodeParameter('webhookEvents', i) as string[];
+						const webhookEvents = this.getNodeParameter('webhookEvents', i, []) as string[];
 
 						const body: IDataObject = {
 							url: webhookUrl,
@@ -1877,7 +2801,6 @@ export class ChateryWhatsApp implements INodeType {
 
 						responseData = await chateryApiRequest.call(this, 'POST', `/api/whatsapp/sessions/${sessionId}/webhooks`, body, credentials);
 					} else if (operation === 'removeWebhook') {
-						const sessionId = this.getNodeParameter('sessionId', i) as string;
 						const webhookUrl = this.getNodeParameter('webhookUrl', i) as string;
 
 						const body: IDataObject = {
@@ -1886,14 +2809,19 @@ export class ChateryWhatsApp implements INodeType {
 
 						responseData = await chateryApiRequestDelete.call(this, 'DELETE', `/api/whatsapp/sessions/${sessionId}/webhooks`, body, credentials);
 					} else if (operation === 'qrCode') {
-						const sessionId = this.getNodeParameter('sessionId', i) as string;
 						responseData = await chateryApiRequestGet.call(this, 'GET', `/api/whatsapp/sessions/${sessionId}/qr`, credentials);
 					} else if (operation === 'qrImage') {
-						const sessionId = this.getNodeParameter('sessionId', i) as string;
 						responseData = await chateryApiRequestGet.call(this, 'GET', `/api/whatsapp/sessions/${sessionId}/qr/image`, credentials);
 					} else if (operation === 'delete') {
-						const sessionId = this.getNodeParameter('sessionId', i) as string;
 						responseData = await chateryApiRequestDelete.call(this, 'DELETE', `/api/whatsapp/sessions/${sessionId}`, {}, credentials);
+					} else if (operation === 'updateProfileName') {
+						const name = this.getNodeParameter('profileName', i) as string;
+						const body: IDataObject = { sessionId, name };
+						responseData = await chateryApiRequest.call(this, 'POST', '/api/whatsapp/profile/name', body, credentials);
+					} else if (operation === 'updateProfileStatus') {
+						const status = this.getNodeParameter('profileStatus', i) as string;
+						const body: IDataObject = { sessionId, status };
+						responseData = await chateryApiRequest.call(this, 'POST', '/api/whatsapp/profile/status', body, credentials);
 					} else {
 						throw new NodeApiError(this.getNode(), { message: `Unknown operation: ${operation}` });
 					}
@@ -1905,13 +2833,10 @@ export class ChateryWhatsApp implements INodeType {
 					returnData.push(...executionData);
 					continue;
 				} else if (resource === 'history') {
-					let responseData: IDataObject;
-					const sessionId = this.getNodeParameter('sessionId', i) as string;
-
 					if (operation === 'overview') {
-						const limit = this.getNodeParameter('limit', i) as number;
-						const offset = this.getNodeParameter('offset', i) as number;
-						const chatType = this.getNodeParameter('chatType', i) as string;
+						const limit = this.getNodeParameter('limit', i, 50) as number;
+						const offset = this.getNodeParameter('offset', i, 0) as number;
+						const chatType = this.getNodeParameter('chatType', i, '') as string;
 
 						const body: IDataObject = { sessionId };
 						if (limit) body.limit = limit;
@@ -1920,9 +2845,9 @@ export class ChateryWhatsApp implements INodeType {
 
 						responseData = await chateryApiRequest.call(this, 'POST', '/api/whatsapp/chats/overview', body, credentials);
 					} else if (operation === 'contacts') {
-						const limit = this.getNodeParameter('limit', i) as number;
-						const offset = this.getNodeParameter('offset', i) as number;
-						const search = this.getNodeParameter('search', i) as string;
+						const limit = this.getNodeParameter('limit', i, 50) as number;
+						const offset = this.getNodeParameter('offset', i, 0) as number;
+						const search = this.getNodeParameter('search', i, '') as string;
 
 						const body: IDataObject = { sessionId };
 						if (limit) body.limit = limit;
@@ -1932,8 +2857,8 @@ export class ChateryWhatsApp implements INodeType {
 						responseData = await chateryApiRequest.call(this, 'POST', '/api/whatsapp/contacts', body, credentials);
 					} else if (operation === 'messages') {
 						const chatId = this.getNodeParameter('chatId', i) as string;
-						const limit = this.getNodeParameter('limit', i) as number;
-						const cursor = this.getNodeParameter('cursor', i) as string;
+						const limit = this.getNodeParameter('limit', i, 50) as number;
+						const cursor = this.getNodeParameter('cursor', i, '') as string;
 
 						const body: IDataObject = { sessionId, chatId };
 						if (limit) body.limit = limit;
@@ -1948,7 +2873,7 @@ export class ChateryWhatsApp implements INodeType {
 						responseData = await chateryApiRequest.call(this, 'POST', '/api/whatsapp/chats/info', body, credentials);
 					} else if (operation === 'markRead') {
 						const chatId = this.getNodeParameter('chatId', i) as string;
-						const messageId = this.getNodeParameter('messageId', i) as string;
+						const messageId = this.getNodeParameter('messageId', i, '') as string;
 
 						const body: IDataObject = { sessionId, chatId };
 						if (messageId) body.messageId = messageId;
@@ -1965,9 +2890,6 @@ export class ChateryWhatsApp implements INodeType {
 					returnData.push(...executionData);
 					continue;
 				} else if (resource === 'group') {
-					let responseData: IDataObject;
-					const sessionId = this.getNodeParameter('sessionId', i) as string;
-
 					if (operation === 'list') {
 						const body: IDataObject = { sessionId };
 						responseData = await chateryApiRequest.call(this, 'POST', '/api/whatsapp/groups', body, credentials);
@@ -2073,6 +2995,12 @@ export class ChateryWhatsApp implements INodeType {
 						const body: IDataObject = { sessionId, groupId };
 
 						responseData = await chateryApiRequest.call(this, 'POST', '/api/whatsapp/groups/revoke-invite', body, credentials);
+					} else if (operation === 'getInviteInfo') {
+						const inviteCode = this.getNodeParameter('inviteCode', i) as string;
+
+						const body: IDataObject = { sessionId, inviteCode };
+
+						responseData = await chateryApiRequest.call(this, 'POST', '/api/whatsapp/groups/invite-info', body, credentials);
 					} else {
 						throw new NodeApiError(this.getNode(), { message: `Unknown operation: ${operation}` });
 					}

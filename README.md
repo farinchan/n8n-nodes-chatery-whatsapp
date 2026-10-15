@@ -92,7 +92,61 @@ The main node for performing WhatsApp operations via HTTP requests.
 
 ## Resources & Operations
 
-### Bulk Resource (NEW!)
+### Chat Resource
+
+| Operation | Description |
+|-----------|-------------|
+| **Send Text** | Send a text message (supports `replyTo` and `mentions`) |
+| **Send Image** | Send an image with optional caption (supports `replyTo`) |
+| **Send Video** | Send a video or animated GIF with optional caption (supports `replyTo`) |
+| **Send Audio** | Send an audio or voice note (OGG format with Opus, supports `replyTo`) |
+| **Send Document** | Send a document/file (supports `replyTo`) |
+| **Send Sticker** | Send a sticker (WebP or image, supports `replyTo`) |
+| **Send Location** | Send a location with coordinates (supports `replyTo`) |
+| **Send Contact** | Send a contact card (supports `replyTo`) |
+| **Send Button** | Send a message with buttons (supports `replyTo`) |
+| **Send Poll** | Send an interactive poll message (supports single/multiple choice) |
+| **Send Reaction** | Send an emoji reaction to a message (or remove reaction) |
+| **Delete Message** | Delete (revoke) a message for everyone |
+| **Pin Message** | Pin a message in a chat (24h, 7d, 30d) |
+| **Star Message** | Star or unstar a message |
+| **Pin Chat** | Pin or unpin a chat in chat list |
+| **Archive Chat** | Archive or unarchive a chat |
+| **Mute Chat** | Mute or unmute notifications for a chat |
+| **Send Presence Update** | Update presence status (`composing`, `recording`, `available`, etc.) |
+| **Check Number** | Check if a number is registered on WhatsApp |
+| **Profile Picture** | Get a contact's profile picture URL |
+| **Contact Info** | Get detailed information about a contact |
+
+### Contact Resource (NEW!)
+
+Manage WhatsApp contacts and view profile details.
+
+| Operation | Description |
+|-----------|-------------|
+| **Add or Update** | Add or update a contact in address book (supports syncing to primary phone) |
+| **Get Status / About** | Get contact status/bio/about text |
+| **Get Business Profile** | Get WhatsApp Business profile (description, email, website, etc.) |
+| **Block or Unblock** | Block or unblock a contact |
+| **Get Blocklist** | Get list of all blocked contacts |
+| **Check Number** | Check if a phone number is registered on WhatsApp |
+| **Get Profile Picture** | Get profile picture URL of a contact |
+| **Get Contact Info** | Get contact information |
+
+### Label Resource (NEW!)
+
+Manage WhatsApp Business labels and tag chats.
+
+| Operation | Description |
+|-----------|-------------|
+| **Get All** | Get all WhatsApp Business labels |
+| **Create** | Create a new label or update an existing label |
+| **Delete** | Delete a label |
+| **Add Label to Chat** | Assign a label to a specific chat |
+| **Remove Label From Chat** | Remove a label from a specific chat |
+| **Get Chat Labels** | Get all labels assigned to a chat |
+
+### Bulk Resource
 
 Send messages to multiple recipients with background processing.
 
@@ -104,23 +158,6 @@ Send messages to multiple recipients with background processing.
 | **Get Job Status** | Get status of a bulk messaging job |
 | **Get All Jobs** | Get all bulk messaging jobs |
 
-### Chat Resource
-
-| Operation | Description |
-|-----------|-------------|
-| **Send Text** | Send a text message (supports replyTo) |
-| **Send Image** | Send an image with optional caption (supports replyTo) |
-| **Send Document** | Send a document/file (supports replyTo) |
-| **Send Location** | Send a location with coordinates (supports replyTo) |
-| **Send Contact** | Send a contact card (supports replyTo) |
-| **Send Button** | Send a message with buttons (supports replyTo) |
-| **Send Presence Update** | Update your presence status |
-| **Check Number** | Check if a number is registered on WhatsApp |
-| **Profile Picture** | Get a contact's profile picture URL |
-| **Contact Info** | Get detailed information about a contact |
-
-> **NEW:** All send operations now support `replyTo` parameter to reply/quote specific messages!
-
 ### Session Resource
 
 | Operation | Description |
@@ -131,9 +168,11 @@ Send messages to multiple recipients with background processing.
 | **Update Config** | Update session configuration |
 | **Add Webhook** | Add a webhook URL to receive events |
 | **Remove Webhook** | Remove a webhook from the session |
-| **QR Code** | Get QR code as text for authentication |
-| **QR Image** | Get QR code as image for authentication |
+| **Get QR Code** | Get QR code as text for authentication |
+| **Get QR Image** | Get QR code as image for authentication |
 | **Delete** | Delete/terminate a session |
+| **Update Profile Name** | Update WhatsApp account display name |
+| **Update Profile Status** | Update WhatsApp account status / bio text |
 
 ### History Resource
 
@@ -162,6 +201,7 @@ Send messages to multiple recipients with background processing.
 | **Leave** | Leave a group |
 | **Get Invite Code** | Get group invite code |
 | **Revoke Invite** | Revoke and generate new invite code |
+| **Get Invite Info** | Preview group information from invite code before joining |
 | **Update Settings** | Set who can send messages or edit group info |
 | **Join** | Join a group using invite code |
 
